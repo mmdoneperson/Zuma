@@ -1,11 +1,11 @@
 from constants import *
+from ball import Ball
 from pygame import Vector2
 import math
 
 
 class Frog:
-    def __init__(self, screen):
-        self.screen = screen
+    def __init__(self):
         self.sprite_image = pg.transform.scale(pg.image.load("zuma.png"), (150, 150))
         self.center = Vector2(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
         self.rect = self.sprite_image.get_rect(center=self.center)
@@ -18,15 +18,15 @@ class Frog:
         temp = -1 if x < self.center.x else 1
         rotated_sprite = pg.transform.rotate(self.sprite_image, (math.acos(cos) * 180) / math.pi * temp)
         sprite_rect = rotated_sprite.get_rect(center=self.rect.center)
-        self.screen.blit(rotated_sprite, sprite_rect)
-
+        screen.blit(rotated_sprite, sprite_rect)
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
             if event.type == pg.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    print("Нажата левая кнопка мыши")
+                    ball = Ball(Vector2(self.center))
+                    ball.update_direction(vect.normalize())
+                    UNITS.append(ball)
                 elif event.button == 3:
                     print("Нажата правая кнопка мыши")
-            a = pg.mouse.get_pos()

@@ -3,19 +3,17 @@ from frog import *
 
 class Game:
     def __init__(self):
-        self.units = None
+        UNITS.append(Frog())
 
     def start_game(self):
-        screen = pg.display.set_mode([WINDOW_WIDTH, WINDOW_HEIGHT])
-        screen.fill([255, 255, 255])
-        self.units = [Frog(screen)]
         pg.display.flip()
         self.update_all()
 
     def update_all(self):
         while True:
             pg.time.Clock().tick(60)
-            for unit in self.units:
+            screen.fill([255, 255, 255])
+            for unit in UNITS:
                 unit.update()
             pg.display.flip()
 
