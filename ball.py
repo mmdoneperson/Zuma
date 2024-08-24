@@ -26,8 +26,8 @@ class Ball:
         self.rect = self.sprite_image.get_rect(center=self.center)
         screen.blit(self.sprite_image, self.rect)
 
-    def updateSize(self, size):
-        self.size = size
+    def change_color(self, color):
+        self.color = color
         self.sprite_image = pg.transform.scale(pg.image.load(self.color), (self.size, self.size))
         self.rect = self.sprite_image.get_rect(center=self.center)
         screen.blit(self.sprite_image, self.rect)
