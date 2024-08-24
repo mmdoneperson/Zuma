@@ -8,9 +8,9 @@ class Ball:
         self.radius = radius_ball
         self.color = COLORS[random.randint(0, 4)]
         self.center = center
-        self.sprite_image = pg.transform.scale(pg.image.load("zuma.png"),
-                                               (20, 20))
+        self.sprite_image = pg.transform.scale(pg.image.load("zuma.png"),(40, 40))
         self.rect = self.sprite_image.get_rect(center=self.center)
+        screen.blit(self.sprite_image, self.rect)
 
     def update_direction(self, direction):
         self.direction = direction
