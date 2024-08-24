@@ -11,7 +11,7 @@ class Game:
 
     def update_all(self):
         while True:
-            pg.time.Clock().tick(60)
+            pg.time.Clock().tick(144)
             screen.fill([255, 255, 255])
             for unit in UNITS:
                 unit.update()
