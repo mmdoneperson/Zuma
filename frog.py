@@ -20,7 +20,6 @@ class Frog:
         sprite_rect = rotated_sprite.get_rect(center=self.rect.center)
         self.screen.blit(rotated_sprite, sprite_rect)
 
-        # pg.draw.rect(self.screen, [0, 255, 0], [225, 225, 25, 25])
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
