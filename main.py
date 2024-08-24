@@ -15,6 +15,7 @@ class Game:
 
     def update_all(self):
         while True:
+            pg.time.Clock().tick(60)
             for unit in self.units:
                 unit.update()
             pg.display.flip()

@@ -6,7 +6,7 @@ import math
 class Frog:
     def __init__(self, screen):
         self.screen = screen
-        self.sprite_image = pg.transform.scale(pg.image.load("player.png"), (120, 120))
+        self.sprite_image = pg.transform.scale(pg.image.load("zuma.png"), (150, 150))
         self.center = Vector2(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
         self.rect = self.sprite_image.get_rect(center=self.center)
         self.coord = Vector2(0, 1)
@@ -15,10 +15,11 @@ class Frog:
         x, y = pg.mouse.get_pos()
         vect = Vector2(x, y) - self.center
         cos = (self.coord.x * vect.x + self.coord.y * vect.y) / (self.coord.length() * vect.length())
-        rotated_sprite = pg.transform.rotate(self.sprite_image, (math.acos(cos) * 180) / math.pi)
+        temp = -1 if x < self.center.x else 1
+        rotated_sprite = pg.transform.rotate(self.sprite_image, (math.acos(cos) * 180) / math.pi * temp)
         sprite_rect = rotated_sprite.get_rect(center=self.rect.center)
         self.screen.blit(rotated_sprite, sprite_rect)
-        self.coord = vect
+
         # pg.draw.rect(self.screen, [0, 255, 0], [225, 225, 25, 25])
 
         for event in pg.event.get():
