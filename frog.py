@@ -37,7 +37,8 @@ class Frog:
                     self.swap()
 
     def shoot(self):
-        self.mouth.update_direction(self.direction.normalize() * 20)
+        self.mouth.update_direction(self.direction.normalize() * 40)
+        self.mouth.is_shoot = True
         UNITS.append(self.mouth)
         self.mouth = Ball(Vector2(self.center + self.direction.normalize() * 35))
         self.mouth.change_color(self.spine.color)
@@ -48,4 +49,3 @@ class Frog:
         temp = self.mouth.color
         self.mouth.change_color(self.spine.color)
         self.spine.change_color(temp)
-

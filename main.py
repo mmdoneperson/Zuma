@@ -1,9 +1,12 @@
-from frog import *
+from constants import *
+from frog import Frog
+from way import Way
 
 
 class Game:
     def __init__(self):
         UNITS.append(Frog())
+        UNITS.append(Way())
 
     def start_game(self):
         pg.display.flip()

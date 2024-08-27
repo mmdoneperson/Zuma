@@ -1,11 +1,11 @@
 import pygame as pg
-from pygame import Vector2
 
 pg.init()
 screen_info = pg.display.Info()
 WINDOW_WIDTH = screen_info.current_w
 WINDOW_HEIGHT = screen_info.current_h
 UNITS = []
+BALLS = []
 radius_ball = 40
 
 screen = pg.display.set_mode([WINDOW_WIDTH, WINDOW_HEIGHT])
