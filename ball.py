@@ -28,16 +28,7 @@ class Ball:
         self.rect = self.sprite_image.get_rect(center=self.center)
         screen.blit(self.sprite_image, self.rect)
         if self.is_shoot:
-            self.check_collision()
-
-    def check_collision(self):
-        colliders = []
-        for ball in BALLS:
-            colliders.append(ball.rect)
-        index = self.rect.collidelist(colliders)
-        if index == -1:
-            return
-        print(index)
+            UNITS[1].check_collision(self)
 
     def change_color(self, color):
         self.color = color
