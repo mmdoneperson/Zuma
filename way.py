@@ -8,8 +8,10 @@ class Way:
         self.vectors = []
         self.count = 0
         self.balls = []
-        for i in range(1000):
+        for i in range(400):
             self.vectors.append(Vector2(2, 0))
+        for i in range(700):
+            self.vectors.append(Vector2(0, 2))
 
     def update(self):
         if self.count == 20:
@@ -30,23 +32,44 @@ class Way:
 
     def check_collision(self, ball):
         colliders = []
-        for b in self.balls:
-            colliders.append(b.rect)
-        index = ball.rect.collidelist(colliders)
-        if index == -1:
+        for i in range(len(self.balls)):
+            if ball.rect.colliderect(self.balls[i].rect):
+                colliders.append(i)
+        if len(colliders) == 0:
             return
         ball.is_shoot = False
-        print(index)
-        self.insert(index, ball)
+        DELS.append(ball)
+        if len(colliders) == 1 and colliders[0] == 0:
+            self.kek(ball.color)
+            return
+        self.insert(colliders[0], ball.color)
 
-    def insert(self, index, ball):
+    def kek(self, color):
         sum_vectors = Vector2(0, 0)
         for i in range(self.balls[0].index_way, min(1000, self.balls[0].index_way + 20)):
             sum_vectors += self.vectors[i]
+
         new_ball = Ball(self.balls[0].center + sum_vectors)
-        new_ball.index_way = self.balls[1].index_way + 20
+        new_ball.index_way = self.balls[0].index_way + 20
         new_ball.update_direction(self.vectors[new_ball.index_way])
-        self.balls.insert(index, new_ball)
+        new_ball.change_color(color)
+        self.balls.insert(0, new_ball)
 
 
+    def insert(self, index, color):
+        sum_vectors = Vector2(0, 0)
+        for i in range(self.balls[0].index_way, min(1000, self.balls[0].index_way + 20)):
+            sum_vectors += self.vectors[i]
 
+        cur_color = color
+        for i in range(index, -1, -1):
+            temp = self.balls[i].color
+            self.balls[i].change_color(cur_color)
+            cur_color = temp
+
+        new_ball = Ball(self.balls[0].center + sum_vectors)
+        new_ball.index_way = self.balls[0].index_way + 20
+        new_ball.update_direction(self.vectors[new_ball.index_way])
+        new_ball.change_color(cur_color)
+
+        self.balls.insert(0, new_ball)

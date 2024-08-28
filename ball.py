@@ -2,6 +2,7 @@ from constants import *
 from pygame import Vector2
 import random
 
+
 class Ball:
     def __init__(self, center, size=radius_ball):
         self.size = size
@@ -12,6 +13,7 @@ class Ball:
         self.sprite_image = pg.transform.scale(pg.image.load(self.color), (size, size))
         self.rect = self.sprite_image.get_rect(center=self.center)
         self.is_shoot = False
+        self.hash = COUNTER.get()
         screen.blit(self.sprite_image, self.rect)
 
     def update_direction(self, direction):
@@ -28,10 +30,9 @@ class Ball:
         self.rect = self.sprite_image.get_rect(center=self.center)
         screen.blit(self.sprite_image, self.rect)
         if self.is_shoot:
-            UNITS[1].check_collision(self)
+            UNITS[0].check_collision(self)
 
     def change_color(self, color):
         self.color = color
         self.sprite_image = pg.transform.scale(pg.image.load(self.color), (self.size, self.size))
         self.rect = self.sprite_image.get_rect(center=self.center)
-        screen.blit(self.sprite_image, self.rect)

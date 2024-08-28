@@ -39,7 +39,7 @@ class Frog:
     def shoot(self):
         self.mouth.update_direction(self.direction.normalize() * 40)
         self.mouth.is_shoot = True
-        UNITS.append(self.mouth)
+        UNITS[self.mouth.hash] = self.mouth
         self.mouth = Ball(Vector2(self.center + self.direction.normalize() * 35))
         self.mouth.change_color(self.spine.color)
         self.spine = Ball(Vector2(self.center - self.direction.normalize() * 40), radius_ball // 2)
