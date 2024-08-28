@@ -54,6 +54,7 @@ class Way:
         new_ball.update_direction(self.vectors[new_ball.index_way])
         new_ball.change_color(color)
         self.balls.insert(0, new_ball)
+        self.remove_balls(0)
 
 
     def insert(self, index, color):
@@ -73,3 +74,24 @@ class Way:
         new_ball.change_color(cur_color)
 
         self.balls.insert(0, new_ball)
+        self.remove_balls(index)
+
+    def remove_balls(self, index):
+        color = self.balls[index].color
+        indexes = []
+        for i in range(index, -1, -1):
+            if color == self.balls[i].color:
+                indexes.append(i)
+            else:
+                break
+        for i in range(index + 1, len(self.balls)):
+            if color == self.balls[i].color:
+                indexes.append(i)
+            else:
+                break
+        if len(indexes) <= 2:
+            return
+        indexes.sort(reverse=True)
+        for i in range(len(indexes)):
+            index = indexes[i]
+            self.balls.pop(index)
