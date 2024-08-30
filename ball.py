@@ -6,6 +6,7 @@ import random
 class Ball:
     def __init__(self, center, size=radius_ball):
         self.size = size
+        self.status = Status.Forward
         self.direction = Vector2(0, 0)
         self.color = COLORS[random.randint(0, 4)]
         self.center = center
@@ -30,7 +31,7 @@ class Ball:
         self.rect = self.sprite_image.get_rect(center=self.center)
         screen.blit(self.sprite_image, self.rect)
         if self.is_shoot:
-            UNITS[0].check_collision(self)
+            UNITS['way'].check_collision(self)
 
     def change_color(self, color):
         self.color = color

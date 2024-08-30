@@ -1,4 +1,5 @@
 import pygame as pg
+import enum
 
 pg.init()
 screen_info = pg.display.Info()
@@ -21,3 +22,10 @@ class Counter:
 
 
 COUNTER = Counter()
+
+
+class Status(enum.Enum):
+    Stop = 'Stop'
+    Forward = 'Forward'
+    Back = 'Back'
+

@@ -1,12 +1,16 @@
 from constants import *
 from frog import Frog
 from way import Way
+from pygame import Vector2
 
 
 class Game:
     def __init__(self):
-        UNITS[COUNTER.get()] = Way()
-        UNITS[COUNTER.get()] = Frog()
+        self.vectors = []
+        for i in range(1000):
+            self.vectors.append(Vector2(2, 0))
+        UNITS['way'] = Way(self.vectors, Vector2(30,30))
+        UNITS['frog'] = Frog()
 
     def start_game(self):
         pg.display.flip()
@@ -16,11 +20,12 @@ class Game:
         while True:
             pg.time.Clock().tick(144)
             screen.fill([255, 255, 255])
-            UNITS[3].update()
+            UNITS['frog'].update()
             for key in UNITS:
-                if key == 3:
+                if key == 'frog' or key == 'way':
                     continue
                 UNITS[key].update()
+            UNITS['way'].update()
             for obj in DELS:
                 UNITS.pop(obj.hash)
             DELS.clear()
