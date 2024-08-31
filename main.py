@@ -7,7 +7,7 @@ from pygame import Vector2
 class Game:
     def __init__(self):
         self.vectors = []
-        for i in range(1000):
+        for i in range(10000):
             self.vectors.append(Vector2(2, 0))
         UNITS['way'] = Way(self.vectors, Vector2(30,30))
         UNITS['frog'] = Frog()
