@@ -20,7 +20,7 @@ class Way:
 
     def spawn(self):
         if self.count >= 20:
-            if len(self.snakes[-1].balls) > 0 and (self.snakes[-1].balls[-1].center - self.start).length() < 40:
+            if len(self.snakes[-1].balls) > 0 and self.snakes[-1].balls[-1].index_way < 20:
                 return
             self.count = 0
             ball = Ball(Vector2(self.start), 40)
