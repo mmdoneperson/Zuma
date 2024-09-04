@@ -7,9 +7,18 @@ from pygame import Vector2
 class Game:
     def __init__(self):
         self.vectors = []
-        for i in range(10000):
-            self.vectors.append(Vector2(2, 0))
-        UNITS['way'] = Way(self.vectors, Vector2(30,30))
+        length = 900
+        width = 500
+        angle = 1
+        while length > 300:
+            for i in range(length):
+                self.vectors.append(Vector2(2 * angle, 0))
+            for i in range(width):
+                self.vectors.append(Vector2(0, 2 * angle))
+            length -= 100
+            width -= 50
+            angle *= -1
+        UNITS['way'] = Way(self.vectors, Vector2(30, 30))
         UNITS['frog'] = Frog()
 
     def start_game(self):
@@ -18,8 +27,9 @@ class Game:
 
     def update_all(self):
         while True:
-            pg.time.Clock().tick(144)
+            pg.time.Clock().tick(60)
             screen.fill([255, 255, 255])
+            UNITS['way'].draw_road()
             UNITS['frog'].update()
             for key in UNITS:
                 if key == 'frog' or key == 'way':
