@@ -46,7 +46,7 @@ def change_angle(i):
 
 
 def load_level_2():
-    vectors = []
+    vectors = [Vector2(2,0)] * 27
     length = 900
     width = 430
     angle = 1
@@ -58,7 +58,7 @@ def load_level_2():
         length -= 100
         width -= 50
         angle *= -1
-    return Level(vectors, Vector2(30, 100), Vector2(
+    return Level(vectors, Vector2(-20, 100), Vector2(
         constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2),
                  pg.transform.scale(
                      pg.image.load("map_road.png"),
@@ -75,11 +75,11 @@ def load_level_3():
         vectors.append(Vector2(x, y).normalize() * 2)
     for i in range(300):
         vectors.append(Vector2(0, 2))
-    for t in range(500, 1890):
+    for t in range(500, 1850):
         x = -abs(t / 100 * math.cos(t / 100))
         y = -t / 100 * math.sin(t / 100)
         vectors.append(Vector2(x, y).normalize() * 2)
-    return Level(vectors, Vector2(60, 100), Vector2(
+    return Level(vectors, Vector2(-20, 100), Vector2(
         848, 546),
                  pg.transform.scale(
                      pg.image.load("map_sin.png"),
