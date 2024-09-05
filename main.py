@@ -35,10 +35,6 @@ class Game:
 
         self.update_all()
 
-
-
-
-
     def update_all(self):
         while True:
             pg.time.Clock().tick(60)

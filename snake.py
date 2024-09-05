@@ -20,12 +20,23 @@ class Snake:
                 ball.index_way += 1
             if self.id == 0:
                 return
-            if abs(self.balls[0].index_way - UNITS['way'].snakes[self.id - 1].balls[-1].index_way) - 20 < 1e-6:
-                snake = UNITS['way'].snakes[self.id - 1]
+            snake = UNITS['way'].snakes[self.id - 1]
+            if self.balls[0].color == snake.balls[-1].color:
+                snake.status = Status.Back
+                self.status = Status.Stop
+                return
+            difference = abs(self.balls[0].index_way - snake.balls[-1].index_way)
+            if difference < 20:
+                snake.status = Status.Forward
+                for i in range(20 - difference):
+                    snake.update()
+                snake.balls = snake.balls + self.balls
+                UNITS['way'].snakes.pop(self.id)
+            if difference == 20:
                 snake.status = Status.Forward
                 snake.balls = snake.balls + self.balls
                 UNITS['way'].snakes.pop(self.id)
-                self.recover_indexes()
+            self.recover_indexes()
         if self.status == Status.Stop:
             for ball in self.balls:
                 ball.update_direction(Vector2(0, 0))
