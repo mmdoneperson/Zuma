@@ -16,6 +16,8 @@ class Game:
         self.vectors = None
 
     def start_game(self):
+        UNITS.clear()
+        self.active_menu = True
         screen.blit(self.menu_background, self.rect_menu_background)
         while self.active_menu:
             for event in pg.event.get():
@@ -46,7 +48,7 @@ class Game:
             pg.time.Clock().tick(60)
             screen.fill([255, 255, 255])
 
-            UNITS['way'].draw_road()
+            # UNITS['way'].draw_road()
             UNITS['frog'].update()
             for key in UNITS:
                 if key == 'frog' or key == 'way':
@@ -60,4 +62,5 @@ class Game:
 
 
 if __name__ == "__main__":
-    Game().start_game()
+    GAME.append(Game())
+    GAME[0].start_game()

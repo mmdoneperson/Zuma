@@ -19,7 +19,7 @@ BUTTONS = [
     Button(levels.load_level_3, 1298, 541, 452, 110),
     Button(lambda: None, 1247, 705, 526, 174)
 ]
-
+GAME = []
 DELS = []
 
 SPRITES = dict()
