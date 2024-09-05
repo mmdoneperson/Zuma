@@ -9,6 +9,8 @@ class Game:
     def __init__(self):
         self.active_menu = True
         self.game_finished = False
+        self.map_background = None
+        self.rect_map_background = None
         self.menu_background = pg.transform.scale(
             pg.image.load("menu.png"), (WINDOW_WIDTH, WINDOW_HEIGHT))
         self.rect_menu_background = self.menu_background.get_rect(
@@ -31,6 +33,11 @@ class Game:
                             self.active_menu = False
                             self.game_finished = True
                         else:
+                            self.map_background = self.level.map_background
+                            self.rect_map_background =\
+                                self.map_background.get_rect(
+                                    center=(WINDOW_WIDTH // 2,
+                                            WINDOW_HEIGHT // 2))
                             self.vectors = self.level.vectors
                             UNITS['way'] = Way(self.vectors,
                                                self.level.starting_point_of_way)
@@ -48,9 +55,7 @@ class Game:
     def update_all(self):
         while True:
             pg.time.Clock().tick(60)
-            screen.fill([255, 255, 255])
-
-            UNITS['way'].draw_road()
+            screen.blit(self.map_background, self.rect_map_background)
             UNITS['frog'].update()
             for key in UNITS:
                 if key == 'frog' or key == 'way' or key == 'score':

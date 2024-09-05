@@ -1,13 +1,15 @@
 import math
 import constants
 from pygame import Vector2
+import pygame as pg
 
 
 class Level:
-    def __init__(self, vectors, start_point, frog_point):
+    def __init__(self, vectors, start_point, frog_point, map_background):
         self.vectors = vectors
         self.starting_point_of_way = start_point
         self.frog_point = frog_point
+        self.map_background = map_background
 
 
 def load_level_1():
@@ -48,7 +50,13 @@ def load_level_1():
         old_x = x
         old_y = y
     vectors.reverse()
-    return Level(vectors, Vector2(450, 250), Vector2(1340, 400))
+    return Level(
+        vectors,
+        Vector2(450, 250),
+        Vector2(1340, 400),
+        pg.transform.scale(
+            pg.image.load("map1.png"),
+            (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)))
 
 
 def load_level_2():
@@ -65,7 +73,11 @@ def load_level_2():
         width -= 50
         angle *= -1
     return Level(vectors, Vector2(30, 100), Vector2(
-        constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2))
+        constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2),
+                 pg.transform.scale(
+                     pg.image.load("map1.png"),
+                     (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
+                 )
 
 
 def load_level_3():
@@ -82,4 +94,8 @@ def load_level_3():
         y = -t / 100 * math.sin(t / 100)
         vectors.append(Vector2(x, y).normalize() * 2)
     return Level(vectors, Vector2(40, 100), Vector2(
-        848, 546))
+        848, 546),
+                 pg.transform.scale(
+                     pg.image.load("map1.png"),
+                     (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
+                 )
