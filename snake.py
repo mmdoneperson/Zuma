@@ -14,6 +14,8 @@ class Snake:
         if self.status == Status.Forward:
             for ball in self.balls:
                 if ball.index_way + 1 == len(self.vectors):
+                    if not UNITS['way'].is_end:
+                        UNITS['way'].end_level()
                     continue
                 ball.update_direction(self.vectors[ball.index_way])
                 ball.update()
@@ -72,7 +74,7 @@ class Snake:
 
     def insert(self, index, color):
         sum_vectors = Vector2(0, 0)
-        for i in range(self.balls[0].index_way, self.balls[0].index_way + 20):
+        for i in range(self.balls[0].index_way, min(self.balls[0].index_way + 20, len(self.vectors))):
             sum_vectors += self.vectors[i]
         cur_color = color
         for i in range(index, -1, -1):
@@ -80,7 +82,7 @@ class Snake:
             self.balls[i].change_color(cur_color)
             cur_color = temp
         new_ball = Ball(self.balls[0].center + sum_vectors)
-        new_ball.index_way = self.balls[0].index_way + 20
+        new_ball.index_way = min(self.balls[0].index_way + 20, len(self.vectors) - 1)
         new_ball.update_direction(self.vectors[new_ball.index_way])
         new_ball.change_color(cur_color)
 

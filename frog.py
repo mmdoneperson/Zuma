@@ -13,6 +13,7 @@ class Frog:
         self.direction = Vector2(0, 1)
         self.mouth = Ball(Vector2(self.center + self.direction.normalize() * 35))
         self.spine = Ball(Vector2(self.center - self.direction.normalize() * 40), radius_ball // 2)
+        self.is_end = False
 
     def update(self):
         x, y = pg.mouse.get_pos()
@@ -30,7 +31,7 @@ class Frog:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 pg.quit()
-            if event.type == pg.MOUSEBUTTONDOWN:
+            if event.type == pg.MOUSEBUTTONDOWN and not self.is_end:
                 if event.button == 1:
                     self.shoot()
                 elif event.button == 3:

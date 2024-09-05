@@ -11,12 +11,16 @@ class Way:
         self.vectors = vectors
         self.start = start
         self.init = False
+        self.is_end = False
         self.rects = []
 
     def update(self):
-        self.spawn()
-        for snake in self.snakes:
-            snake.update()
+        if self.is_end:
+            self.end_level()
+        else:
+            self.spawn()
+            for snake in self.snakes:
+                snake.update()
 
     def spawn(self):
         if self.count >= 20:
@@ -76,3 +80,11 @@ class Way:
         brown = (202, 153, 51)
         for rect in self.rects:
             pg.draw.rect(screen, brown, rect)
+
+    def end_level(self):
+        self.is_end = True
+        UNITS['frog'].is_end = True
+        for snake in self.snakes:
+            snake.status = Status.Forward
+            for i in range(30):
+                snake.update()
