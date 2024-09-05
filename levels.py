@@ -17,32 +17,8 @@ def load_level_1():
     t = 0
     old_x = 900
     old_y = 500
-    for i in range(500):
-        t += math.pi / 350
-        r = (1 + 0.1 * t)
-        x = r * math.cos(t)
-        y = r * math.sin(t)
-        vectors.append(Vector2(-(y - old_y), x - old_x).normalize() * -2)
-        old_x = x
-        old_y = y
-    for i in range(500, 1350):
-        t += math.pi / 600
-        r = (1 + 0.1 * t)
-        x = r * math.cos(t)
-        y = r * math.sin(t)
-        vectors.append(Vector2(-(y - old_y), x - old_x).normalize() * -2)
-        old_x = x
-        old_y = y
-    for i in range(1350, 2000):
-        t += math.pi / 700
-        r = (1 + 0.1 * t)
-        x = r * math.cos(t)
-        y = r * math.sin(t)
-        vectors.append(Vector2(-(y - old_y), x - old_x).normalize() * -2)
-        old_x = x
-        old_y = y
-    for i in range(2000, 2800):
-        t += math.pi / 1000
+    for i in range(2800):
+        t += change_angle(i)
         r = (1 + 0.1 * t)
         x = r * math.cos(t)
         y = r * math.sin(t)
@@ -57,6 +33,16 @@ def load_level_1():
         pg.transform.scale(
             pg.image.load("map1.png"),
             (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)).convert())
+
+def change_angle(i):
+    if 0 <= i < 500:
+        return math.pi / 350
+    if 500 <= i < 1350:
+        return math.pi / 600
+    if 1350 <= i < 2000:
+        return math.pi / 700
+    return math.pi / 1000
+
 
 
 def load_level_2():
@@ -93,8 +79,8 @@ def load_level_3():
         x = -abs(t / 100 * math.cos(t / 100))
         y = -t / 100 * math.sin(t / 100)
         vectors.append(Vector2(x, y).normalize() * 2)
-    return Level(vectors, Vector2(0, 100), Vector2(
-        constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2),
+    return Level(vectors, Vector2(60, 100), Vector2(
+        848, 546),
                  pg.transform.scale(
                      pg.image.load("map_sin.png"),
                      (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)).convert()

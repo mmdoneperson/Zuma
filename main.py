@@ -2,6 +2,8 @@ from constants import *
 from frog import Frog
 from way import Way
 from score import Score
+from abyss import Abyss
+from pygame import Vector2
 import sys
 
 
@@ -45,6 +47,10 @@ class Game:
                             UNITS['frog'].center = self.level.frog_point
                             UNITS['frog'].rect.center = self.level.frog_point
                             UNITS['score'] = Score(300)
+                            start = Vector2(self.level.starting_point_of_way)
+                            for vect in self.vectors:
+                                start += vect
+                            UNITS['abyss'] = Abyss(start.x, start.y, len(self.vectors))
                             self.active_menu = False
             pg.display.flip()
         if self.game_finished:
@@ -55,11 +61,12 @@ class Game:
     def update_all(self):
         while True:
             pg.time.Clock().tick(60)
-            screen.blit(self.map_background, self.rect_map_background)
+            screen.blit(self.map_background, (0, 0))
+            UNITS['abyss'].update()
             #UNITS['way'].draw_road()
             UNITS['frog'].update()
             for key in UNITS:
-                if key == 'frog' or key == 'way' or key == 'score':
+                if key == 'frog' or key == 'way' or key == 'score' or key == 'abyss':
                     continue
                 UNITS[key].update()
             UNITS['way'].update()

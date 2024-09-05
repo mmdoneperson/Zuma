@@ -82,12 +82,11 @@ class Way:
             pg.draw.rect(screen, brown, rect)
 
     def end_level(self):
+        if self.snakes[0].balls[0].index_way == self.snakes[-1].balls[-1].index_way:
+            GAME[0].start_game()
         self.is_end = True
         UNITS['frog'].is_end = True
         for snake in self.snakes:
             snake.status = Status.Forward
             for i in range(30):
                 snake.update()
-
-        if self.snakes[0].balls[0].index_way == self.snakes[-1].balls[-1].index_way:
-            GAME[0].start_game()
