@@ -1,4 +1,6 @@
 import pygame as pg
+import levels
+from button import Button
 import enum
 
 pg.init()
@@ -11,6 +13,9 @@ screen = pg.display.set_mode([WINDOW_WIDTH, WINDOW_HEIGHT])
 screen.fill([255, 255, 255])
 
 COLORS = ['purpleBall.png', 'redBall.png', 'yellowBall.png', 'greenBall.png', 'blueBall.png']
+BUTTONS = [
+    Button(levels.load_level_2, 0, 0, 100, 100)
+]
 
 DELS = []
 

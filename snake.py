@@ -100,6 +100,7 @@ class Snake:
             return
         self.split(indexes)
 
+
     def split(self, indexes):
         new_ball = self.balls[indexes[0] + 1:]
         cur_ball = self.balls[0: indexes[-1]]

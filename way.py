@@ -76,9 +76,3 @@ class Way:
         brown = (202, 153, 51)
         for rect in self.rects:
             pg.draw.rect(screen, brown, rect)
-
-
-
-
-
-

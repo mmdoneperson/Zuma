@@ -2,76 +2,48 @@ from constants import *
 from frog import Frog
 from way import Way
 from pygame import Vector2
-import math
+import levels
 
 
 class Game:
     def __init__(self):
-        self.vectors = self.circle()
-        # length = 900
-        # width = 500
-        # angle = 1
-        # while length > 300:
-        #     for i in range(length):
-        #         self.vectors.append(Vector2(2 * angle, 0))
-        #     for i in range(width):
-        #         self.vectors.append(Vector2(0, 2 * angle))
-        #     length -= 100
-        #     width -= 50
-        #     angle *= -1
-        UNITS['way'] = Way(self.vectors, Vector2(450, 250))
-        UNITS['frog'] = Frog()
-        UNITS['frog'].center = Vector2(1340, 400)
-        UNITS['frog'].rect.center = Vector2(1340, 400)
-
-    def circle(self):
-        vectors = []
-        t = 0
-        old_x = 900
-        old_y = 500
-        for i in range(500):
-            t += math.pi / 350
-            r = (1 + 0.1 * t)
-            x = r * math.cos(t)
-            y = r * math.sin(t)
-            vectors.append(Vector2(-(y - old_y), x - old_x).normalize() * -2)
-            old_x = x
-            old_y = y
-        for i in range(500, 1350):
-            t += math.pi / 600
-            r = (1 + 0.1 * t)
-            x = r * math.cos(t)
-            y = r * math.sin(t)
-            vectors.append(Vector2(-(y - old_y), x - old_x).normalize() * -2)
-            old_x = x
-            old_y = y
-        for i in range(1350, 2000):
-            t += math.pi / 700
-            r = (1 + 0.1 * t)
-            x = r * math.cos(t)
-            y = r * math.sin(t)
-            vectors.append(Vector2(-(y - old_y), x - old_x).normalize() * -2)
-            old_x = x
-            old_y = y
-        for i in range(2000, 2800):
-            t += math.pi / 1000
-            r = (1 + 0.1 * t)
-            x = r * math.cos(t)
-            y = r * math.sin(t)
-            vectors.append(Vector2(-(y - old_y), x - old_x).normalize() * -2)
-            old_x = x
-            old_y = y
-        vectors.reverse()
-        return vectors
+        self.level_started = False
+        self.menu_background = pg.transform.scale(
+            pg.image.load("menu.png"), (WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.rect_menu_background = self.menu_background.get_rect(
+            center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
+        self.level = None
+        self.vectors = None
 
     def start_game(self):
-        pg.display.flip()
+        screen.blit(self.menu_background, self.rect_menu_background)
+        while not self.level_started:
+            for event in pg.event.get():
+                if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+                    print(pg.mouse.get_pos())
+                    for button in BUTTONS:
+                        if button.check_click(pg.mouse.get_pos()):
+                            self.level = button.command()
+                            self.vectors = self.level.vectors
+                            UNITS['way'] = Way(self.vectors,
+                                               self.level.starting_point_of_way)
+                            UNITS['frog'] = Frog()
+                            UNITS['frog'].center = self.level.frog_point
+                            UNITS['frog'].rect.center = self.level.frog_point
+                            self.level_started = True
+            pg.display.flip()
+
         self.update_all()
+
+
+
+
 
     def update_all(self):
         while True:
             pg.time.Clock().tick(60)
             screen.fill([255, 255, 255])
+
             UNITS['way'].draw_road()
             UNITS['frog'].update()
             for key in UNITS:
