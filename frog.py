@@ -2,6 +2,7 @@ from constants import *
 from ball import Ball
 from pygame import Vector2
 import math
+import time
 
 
 class Frog:
@@ -14,6 +15,7 @@ class Frog:
         self.mouth = Ball(Vector2(self.center + self.direction.normalize() * 35))
         self.spine = Ball(Vector2(self.center - self.direction.normalize() * 40), radius_ball // 2)
         self.is_end = False
+        self.timer_start = time.time()
 
     def update(self):
         x, y = pg.mouse.get_pos()
@@ -33,7 +35,9 @@ class Frog:
                 pg.quit()
             if event.type == pg.MOUSEBUTTONDOWN and not self.is_end:
                 if event.button == 1:
-                    self.shoot()
+                    if time.time() - self.timer_start >= 0.2:
+                        self.shoot()
+                        self.timer_start = time.time()
                 elif event.button == 3:
                     self.swap()
 

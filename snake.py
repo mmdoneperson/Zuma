@@ -11,6 +11,8 @@ class Snake:
         self.status = Status.Forward
 
     def update(self):
+        if len(self.balls) == 0:
+            return
         if self.status == Status.Forward:
             for ball in self.balls:
                 if ball.index_way + 1 == len(self.vectors):
@@ -107,12 +109,16 @@ class Snake:
         indexes.sort(reverse=True)
         if indexes[0] == len(self.balls) - 1:
             self.balls = self.balls[:indexes[-1]]
+            if len(UNITS['way'].snakes) != 1:
+                return
+            self.status = Status.Stop
+            UNITS['way'].snakes.append(Snake(UNITS['way'].vectors, 1))
             return
         if indexes[-1] == 0:
             self.balls = self.balls[indexes[0] + 1:]
             return
+        UNITS['score'].add(len(indexes))
         self.split(indexes)
-
 
     def split(self, indexes):
         new_ball = self.balls[indexes[0] + 1:]

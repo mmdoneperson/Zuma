@@ -54,7 +54,7 @@ def load_level_1():
 def load_level_2():
     vectors = []
     length = 900
-    width = 500
+    width = 430
     angle = 1
     while length > 300:
         for i in range(length):
@@ -64,14 +64,22 @@ def load_level_2():
         length -= 100
         width -= 50
         angle *= -1
-    return Level(vectors, Vector2(30, 30), Vector2(
+    return Level(vectors, Vector2(30, 100), Vector2(
         constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2))
+
 
 def load_level_3():
     vectors = []
-    for t in range(1, 5000):
+
+    for t in range(1, 1400):
         x = abs(t / 100 * math.cos(t / 100))
         y = t / 100 * math.sin(t / 100)
         vectors.append(Vector2(x, y).normalize() * 2)
-    return Level(vectors, Vector2(30, 30), Vector2(
-        constants.WINDOW_WIDTH // 3 * 2, constants.WINDOW_HEIGHT // 5 * 4))
+    for i in range(300):
+        vectors.append(Vector2(0, 2))
+    for t in range(500, 1890):
+        x = -abs(t / 100 * math.cos(t / 100))
+        y = -t / 100 * math.sin(t / 100)
+        vectors.append(Vector2(x, y).normalize() * 2)
+    return Level(vectors, Vector2(40, 100), Vector2(
+        848, 546))

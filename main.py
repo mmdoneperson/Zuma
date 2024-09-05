@@ -1,6 +1,7 @@
 from constants import *
 from frog import Frog
 from way import Way
+from score import Score
 import sys
 
 
@@ -36,6 +37,7 @@ class Game:
                             UNITS['frog'] = Frog()
                             UNITS['frog'].center = self.level.frog_point
                             UNITS['frog'].rect.center = self.level.frog_point
+                            UNITS['score'] = Score(300)
                             self.active_menu = False
             pg.display.flip()
         if self.game_finished:
@@ -48,13 +50,14 @@ class Game:
             pg.time.Clock().tick(60)
             screen.fill([255, 255, 255])
 
-            # UNITS['way'].draw_road()
+            UNITS['way'].draw_road()
             UNITS['frog'].update()
             for key in UNITS:
-                if key == 'frog' or key == 'way':
+                if key == 'frog' or key == 'way' or key == 'score':
                     continue
                 UNITS[key].update()
             UNITS['way'].update()
+            UNITS['score'].update()
             for obj in DELS:
                 UNITS.pop(obj.hash)
             DELS.clear()
