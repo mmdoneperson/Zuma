@@ -1,13 +1,13 @@
 from constants import *
 from frog import Frog
 from way import Way
-from pygame import Vector2
-import levels
+import sys
 
 
 class Game:
     def __init__(self):
-        self.level_started = False
+        self.active_menu = True
+        self.game_finished = False
         self.menu_background = pg.transform.scale(
             pg.image.load("menu.png"), (WINDOW_WIDTH, WINDOW_HEIGHT))
         self.rect_menu_background = self.menu_background.get_rect(
@@ -17,22 +17,28 @@ class Game:
 
     def start_game(self):
         screen.blit(self.menu_background, self.rect_menu_background)
-        while not self.level_started:
+        while self.active_menu:
             for event in pg.event.get():
                 if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-                    print(pg.mouse.get_pos())
                     for button in BUTTONS:
-                        if button.check_click(pg.mouse.get_pos()):
-                            self.level = button.command()
+                        if not button.check_click(pg.mouse.get_pos()):
+                            continue
+                        self.level = button.command()
+                        if self.level is None:
+                            self.active_menu = False
+                            self.game_finished = True
+                        else:
                             self.vectors = self.level.vectors
                             UNITS['way'] = Way(self.vectors,
                                                self.level.starting_point_of_way)
                             UNITS['frog'] = Frog()
                             UNITS['frog'].center = self.level.frog_point
                             UNITS['frog'].rect.center = self.level.frog_point
-                            self.level_started = True
+                            self.active_menu = False
             pg.display.flip()
-
+        if self.game_finished:
+            pg.quit()
+            sys.exit()
         self.update_all()
 
     def update_all(self):

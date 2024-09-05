@@ -66,3 +66,12 @@ def load_level_2():
         angle *= -1
     return Level(vectors, Vector2(30, 30), Vector2(
         constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2))
+
+def load_level_3():
+    vectors = []
+    for t in range(1, 5000):
+        x = abs(t / 100 * math.cos(t / 100))
+        y = t / 100 * math.sin(t / 100)
+        vectors.append(Vector2(x, y).normalize() * 2)
+    return Level(vectors, Vector2(30, 30), Vector2(
+        constants.WINDOW_WIDTH // 3 * 2, constants.WINDOW_HEIGHT // 5 * 4))

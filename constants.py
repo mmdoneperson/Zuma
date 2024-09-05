@@ -14,7 +14,10 @@ screen.fill([255, 255, 255])
 
 COLORS = ['purpleBall.png', 'redBall.png', 'yellowBall.png', 'greenBall.png', 'blueBall.png']
 BUTTONS = [
-    Button(levels.load_level_2, 0, 0, 100, 100)
+    Button(levels.load_level_1, 1375, 154, 390, 159),
+    Button(levels.load_level_2, 1326, 364, 436, 116),
+    Button(levels.load_level_3, 1298, 541, 452, 110),
+    Button(lambda: None, 1247, 705, 526, 174)
 ]
 
 DELS = []
