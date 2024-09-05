@@ -56,7 +56,7 @@ def load_level_1():
         Vector2(1340, 400),
         pg.transform.scale(
             pg.image.load("map1.png"),
-            (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)))
+            (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)).convert())
 
 
 def load_level_2():
@@ -75,8 +75,8 @@ def load_level_2():
     return Level(vectors, Vector2(30, 100), Vector2(
         constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2),
                  pg.transform.scale(
-                     pg.image.load("map1.png"),
-                     (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
+                     pg.image.load("map_road.png"),
+                     (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)).convert()
                  )
 
 
@@ -93,9 +93,9 @@ def load_level_3():
         x = -abs(t / 100 * math.cos(t / 100))
         y = -t / 100 * math.sin(t / 100)
         vectors.append(Vector2(x, y).normalize() * 2)
-    return Level(vectors, Vector2(40, 100), Vector2(
-        848, 546),
+    return Level(vectors, Vector2(0, 100), Vector2(
+        constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2),
                  pg.transform.scale(
-                     pg.image.load("map1.png"),
-                     (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT))
+                     pg.image.load("map_sin.png"),
+                     (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)).convert()
                  )

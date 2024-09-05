@@ -56,6 +56,7 @@ class Game:
         while True:
             pg.time.Clock().tick(60)
             screen.blit(self.map_background, self.rect_map_background)
+            #UNITS['way'].draw_road()
             UNITS['frog'].update()
             for key in UNITS:
                 if key == 'frog' or key == 'way' or key == 'score':
