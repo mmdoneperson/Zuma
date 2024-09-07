@@ -46,7 +46,7 @@ class Game:
                             UNITS['frog'] = Frog()
                             UNITS['frog'].center = self.level.frog_point
                             UNITS['frog'].rect.center = self.level.frog_point
-                            UNITS['score'] = Score(300)
+                            UNITS['score'] = Score(150)
                             start = Vector2(self.level.starting_point_of_way)
                             for vect in self.vectors:
                                 start += vect

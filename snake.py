@@ -25,6 +25,8 @@ class Snake:
             if self.id == 0:
                 return
             snake = UNITS['way'].snakes[self.id - 1]
+            if len(snake.balls) == 0:
+                return
             if self.balls[0].color == snake.balls[-1].color:
                 snake.status = Status.Back
                 self.status = Status.Stop
@@ -47,12 +49,17 @@ class Snake:
                 ball.update()
         if self.status == Status.Back:
             for i in range(3):
-                for ball in self.balls:
-                    if ball.index_way - 1 == 0:
+                for i, ball in enumerate(self.balls):
+                    if ball.index_way - 1 == -1:
+                        self.balls.pop(i)
+                        if len(self.balls) == 0:
+                            UNITS['way'].snakes.pop(self.id)
                         continue
                     ball.update_direction(-1 * self.vectors[ball.index_way - 1])
                     ball.update()
                     ball.index_way -= 1
+                if UNITS['way'].reverse_count > 0 or len(UNITS['way'].snakes) == self.id + 1:
+                    return
                 if abs(self.balls[-1].index_way - UNITS['way'].snakes[self.id + 1].balls[0].index_way) - 20 < 1e-6:
                     self.status = Status.Forward
                     index = len(self.balls) - 1
@@ -117,7 +124,7 @@ class Snake:
         if indexes[-1] == 0:
             self.balls = self.balls[indexes[0] + 1:]
             return
-        UNITS['score'].add(len(indexes))
+
         self.split(indexes)
 
     def split(self, indexes):
@@ -131,10 +138,12 @@ class Snake:
         if new_ball[0].color == cur_ball[-1].color:
             self.status = Status.Back
             new_snake.status = Status.Stop
+            UNITS['score'].add(len(indexes))
             return
         if self.status == Status.Stop:
             new_snake.status = Status.Stop
         self.status = Status.Stop
+        UNITS['score'].add(len(indexes))
 
     def recover_indexes(self):
         for i in range(len(UNITS['way'].snakes)):

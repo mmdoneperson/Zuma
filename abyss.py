@@ -8,7 +8,7 @@ class Abyss:
         self.length = length - 500
 
     def update(self):
-        yellow = (134 - 20, 136 - 20, 138 - 20)
+        yellow = (114, 116, 118)
         black = (0, 0, 0)
         pg.draw.circle(screen, yellow, (self.x, self.y), 50, 0)
         if len(UNITS['way'].snakes[0].balls) > 0:

@@ -12,18 +12,30 @@ class Way:
         self.start = start
         self.init = False
         self.is_end = False
+        self.is_spawn = True
+        self.reverse_count = 0
         self.rects = []
+        self.statuses = []
 
     def update(self):
         if self.is_end:
             self.end_level()
+            return 
+        if self.reverse_count > 0:
+            print(self.reverse_count)
+            for snake in self.snakes:
+                snake.update()
+            self.reverse_count -= 1
+            if self.reverse_count == 0:
+                for i in range(len(self.snakes)):
+                    self.snakes[i].status = self.statuses[i]
         else:
             self.spawn()
             for snake in self.snakes:
                 snake.update()
 
     def spawn(self):
-        if self.count >= 20:
+        if self.count >= 20 and self.is_spawn:
             if len(self.snakes[-1].balls) > 0 and self.snakes[-1].balls[-1].index_way < 20:
                 return
             self.count = 0
@@ -90,3 +102,12 @@ class Way:
             snake.status = Status.Forward
             for i in range(30):
                 snake.update()
+
+    def reverse(self):
+        self.statuses = []
+        self.reverse_count = 200
+        for snake in self.snakes:
+            self.statuses.append(snake.status)
+            snake.status = Status.Back
+
+
