@@ -31,10 +31,10 @@ class Frog:
             self.spine.draw(self.center - self.direction.normalize() * 40)
 
         for event in pg.event.get():
-            if event.type == pg.QUIT:
-                pg.quit()
             if event.type == pg.MOUSEBUTTONDOWN and not self.is_end:
                 if event.button == 1:
+                    if BUTTON_RETURN_MENU.rect.collidepoint(pg.mouse.get_pos()):
+                        GAME[0].start_game()
                     if time.time() - self.timer_start >= 0.2:
                         self.shoot()
                         self.timer_start = time.time()

@@ -31,7 +31,7 @@ def load_level_1():
         Vector2(450, 250),
         Vector2(1340, 400),
         pg.transform.scale(
-            pg.image.load("map1.png"),
+            pg.image.load("first_map.png"),
             (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)).convert())
 
 def change_angle(i):

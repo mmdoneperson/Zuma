@@ -13,14 +13,20 @@ screen = pg.display.set_mode([WINDOW_WIDTH, WINDOW_HEIGHT])
 screen.fill([255, 255, 255])
 
 COLORS = ['purpleBall.png', 'redBall.png', 'yellowBall.png', 'greenBall.png', 'blueBall.png']
-BUTTONS = [
+MENU_BUTTONS = [
     Button(levels.load_level_1, 1375, 154, 390, 159),
     Button(levels.load_level_2, 1326, 364, 436, 116),
     Button(levels.load_level_3, 1298, 541, 452, 110),
-    Button(lambda: None, 1247, 705, 526, 174)
+    Button(lambda: None, 1247, 705, 526, 174),
 ]
+
 GAME = []
 DELS = []
+BUTTON_RETURN_MENU = Button(lambda: None, 1700, 0, 220, 60)
+BUTTON_RETURN_MENU.image = pg.transform.scale(pg.image.load("yellowBall.png"), (150, 150))
+BUTTON_RETURN_MENU.rect = BUTTON_RETURN_MENU.image.get_rect(center=pg.Vector2(1810, 30))
+
+
 
 SPRITES = dict()
 for color in COLORS:

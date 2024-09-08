@@ -27,7 +27,7 @@ class Game:
         while self.active_menu:
             for event in pg.event.get():
                 if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-                    for button in BUTTONS:
+                    for button in MENU_BUTTONS:
                         if not button.check_click(pg.mouse.get_pos()):
                             continue
                         self.level = button.command()
@@ -62,6 +62,7 @@ class Game:
         while True:
             pg.time.Clock().tick(60)
             screen.blit(self.map_background, (0, 0))
+            screen.blit(BUTTON_RETURN_MENU.image, BUTTON_RETURN_MENU.rect)
             UNITS['abyss'].update()
             #UNITS['way'].draw_road()
             UNITS['frog'].update()
