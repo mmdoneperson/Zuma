@@ -1,5 +1,6 @@
 from constants import *
 
+
 class Score:
 
     def __init__(self, max_score):
@@ -16,8 +17,6 @@ class Score:
                 UNITS['way'].reverse()
             self.is_full = True
 
-
-
     def update(self):
         black = (0, 0, 0)
         green = (0, 255, 0)
@@ -26,5 +25,3 @@ class Score:
         green_rect = [35, 25, length_green, 30]
         pg.draw.rect(screen, black, black_rect)
         pg.draw.rect(screen, green, green_rect)
-
-
