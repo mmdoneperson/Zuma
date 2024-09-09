@@ -1,4 +1,5 @@
-from constants import *
+import constants
+import pygame as pg
 
 
 class Abyss:
@@ -6,13 +7,18 @@ class Abyss:
         self.x = x
         self.y = y
         self.length = length - 500
-        self.image = pg.transform.scale(pg.image.load("image/end.png"), (150, 150))
+        self.image = pg.transform.scale(
+            pg.image.load("image/end.png"), (150, 150))
         self.rect_image = self.image.get_rect(center=(self.x - 2, self.y - 2))
 
     def update(self):
         black = (0, 0, 0)
-        screen.blit(self.image, self.rect_image)
-        if len(UNITS['way'].snakes[0].balls) > 0:
-            index = UNITS['way'].snakes[0].balls[0].index_way
+        constants.screen.blit(self.image, self.rect_image)
+        if len(constants.WAY.snakes[0].balls) > 0:
+            index = constants.WAY.snakes[0].balls[0].index_way
             if index >= self.length:
-                pg.draw.circle(screen, black, (self.x, self.y), 38 * (index - self.length) / 500, 0)
+                pg.draw.circle(constants.screen,
+                               black,
+                               (self.x, self.y),
+                               38 * (index - self.length) / 500,
+                               0)

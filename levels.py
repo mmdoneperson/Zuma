@@ -62,7 +62,9 @@ def load_level_2():
         constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2),
                  pg.transform.scale(
                      pg.image.load("image/map_road.png"),
-                     (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)).convert()
+                     (
+                         constants.WINDOW_WIDTH,
+                         constants.WINDOW_HEIGHT)).convert()
                  )
 
 
@@ -82,5 +84,7 @@ def load_level_3():
         848, 546),
                  pg.transform.scale(
                      pg.image.load("image/map_sin.png"),
-                     (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)).convert()
+                     (
+                         constants.WINDOW_WIDTH,
+                         constants.WINDOW_HEIGHT)).convert()
                  )

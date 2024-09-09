@@ -1,7 +1,9 @@
-from constants import *
+import constants
 from snake import Snake
 from pygame import Vector2
 from ball import Ball
+import pygame as pg
+from status import Status
 
 
 class Way:
@@ -20,7 +22,7 @@ class Way:
     def update(self):
         if self.is_end:
             self.end_level()
-            return 
+            return
         if self.reverse_count > 0:
             print(self.reverse_count)
             for snake in self.snakes:
@@ -36,7 +38,8 @@ class Way:
 
     def spawn(self):
         if self.count >= 20 and self.is_spawn:
-            if len(self.snakes[-1].balls) > 0 and self.snakes[-1].balls[-1].index_way < 20:
+            if (len(self.snakes[-1].balls) > 0
+                    and self.snakes[-1].balls[-1].index_way < 20):
                 return
             self.count = 0
             ball = Ball(Vector2(self.start), 40)
@@ -53,7 +56,7 @@ class Way:
             if len(colliders) == 0:
                 continue
             ball.is_shoot = False
-            DELS.append(ball)
+            constants.REMOVED_BALLS.append(ball)
             if len(colliders) == 1 and colliders[0] == 0:
                 snake.kek(ball.color)
                 break
@@ -91,13 +94,14 @@ class Way:
             self.init = True
         brown = (202, 153, 51)
         for rect in self.rects:
-            pg.draw.rect(screen, brown, rect)
+            pg.draw.rect(constants.screen, brown, rect)
 
     def end_level(self):
-        if self.snakes[0].balls[0].index_way == self.snakes[-1].balls[-1].index_way:
-            GAME[0].start_game()
+        if (self.snakes[0].balls[0].index_way
+                == self.snakes[-1].balls[-1].index_way):
+            constants.GAME.start_game()
         self.is_end = True
-        UNITS['frog'].is_end = True
+        constants.FROG.is_end = True
         for snake in self.snakes:
             snake.status = Status.Forward
             for i in range(30):
@@ -109,5 +113,3 @@ class Way:
         for snake in self.snakes:
             self.statuses.append(snake.status)
             snake.status = Status.Back
-
-

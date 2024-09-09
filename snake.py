@@ -1,6 +1,13 @@
 from ball import Ball
 from pygame import Vector2
-from constants import *
+import constants
+import pygame as pg
+from status import Status
+
+
+def recover_indexes():
+    for i in range(len(constants.WAY.snakes)):
+        constants.WAY.snakes[i].id = i
 
 
 class Snake:
@@ -25,15 +32,15 @@ class Snake:
     def __forward(self):
         for ball in self.balls:
             if ball.index_way + 1 == len(self.vectors):
-                if not UNITS['way'].is_end:
-                    UNITS['way'].end_level()
+                if not constants.WAY.is_end:
+                    constants.WAY.end_level()
                 continue
             ball.update_direction(self.vectors[ball.index_way])
             ball.update()
             ball.index_way += 1
         if self.id == 0:
             return
-        snake = UNITS['way'].snakes[self.id - 1]
+        snake = constants.WAY.snakes[self.id - 1]
         if len(snake.balls) == 0:
             return
         if self.balls[0].color == snake.balls[-1].color:
@@ -46,12 +53,12 @@ class Snake:
             for i in range(20 - difference):
                 snake.update()
             snake.balls = snake.balls + self.balls
-            UNITS['way'].snakes.pop(self.id)
-        self.recover_indexes()
+            constants.WAY.snakes.pop(self.id)
+        recover_indexes()
 
     def __stop(self):
-        if self.id != 0 and UNITS['way'].snakes[self.id - 1].status == Status.Stop:
-            snake = UNITS['way'].snakes[self.id - 1]
+        if self.id != 0 and constants.WAY.snakes[self.id - 1].status == Status.Stop:
+            snake = constants.WAY.snakes[self.id - 1]
             difference = abs(snake.balls[-1].index_way - self.balls[0].index_way)
             if difference <= 20:
                 snake.status = Status.Forward
@@ -59,16 +66,16 @@ class Snake:
                     snake.update()
                 snake.status = Status.Stop
                 snake.balls = snake.balls + self.balls
-                UNITS['way'].snakes.pop(self.id)
-                self.recover_indexes()
+                constants.WAY.snakes.pop(self.id)
+                recover_indexes()
                 return
         for ball in self.balls:
             ball.update_direction(Vector2(0, 0))
             ball.update()
 
     def __back(self):
-        if self.id != len(UNITS['way'].snakes) - 1:
-            if UNITS['way'].snakes[self.id + 1].status == Status.Forward:
+        if self.id != len(constants.WAY.snakes) - 1:
+            if constants.WAY.snakes[self.id + 1].status == Status.Forward:
                 self.status = Status.Stop
                 return
         for i in range(3):
@@ -76,24 +83,24 @@ class Snake:
                 if ball.index_way - 1 == -1:
                     self.balls.pop(i)
                     if len(self.balls) == 0:
-                        UNITS['way'].snakes.pop(self.id)
+                        constants.WAY.snakes.pop(self.id)
                     continue
                 ball.update_direction(-1 * self.vectors[ball.index_way - 1])
                 ball.update()
                 ball.index_way -= 1
-            if UNITS['way'].reverse_count > 0 or len(UNITS['way'].snakes) == self.id + 1:
+            if constants.WAY.reverse_count > 0 or len(constants.WAY.snakes) == self.id + 1:
                 return
-            difference = abs(self.balls[-1].index_way - UNITS['way'].snakes[self.id + 1].balls[0].index_way)
+            difference = abs(self.balls[-1].index_way - constants.WAY.snakes[self.id + 1].balls[0].index_way)
             if difference <= 20:
                 self.status = Status.Forward
                 for i in range(20 - difference):
                     self.update()
                 index = len(self.balls) - 1
-                self.balls = self.balls + UNITS['way'].snakes[self.id + 1].balls
-                UNITS['way'].snakes.pop(self.id + 1)
-                self.recover_indexes()
+                self.balls = self.balls + constants.WAY.snakes[self.id + 1].balls
+                constants.WAY.snakes.pop(self.id + 1)
+                recover_indexes()
                 self.status = Status.Stop
-                snakes = UNITS['way'].snakes
+                snakes = constants.WAY.snakes
                 for i in range(len(snakes) - 1, -1, -1):
                     if snakes[i].status == Status.Forward:
                         break
@@ -136,32 +143,45 @@ class Snake:
 
     def remove_balls(self, index):
         color = self.balls[index].color
-        indexes = []
-        for i in range(index, -1, -1):
-            if color == self.balls[i].color:
-                indexes.append(i)
-            else:
-                break
-        for i in range(index + 1, len(self.balls)):
-            if color == self.balls[i].color:
-                indexes.append(i)
-            else:
-                break
+        indexes = self.__find_matching_color_balls(index, color)
+
         if len(indexes) <= 2:
             return
+
         indexes.sort(reverse=True)
         self.sound_remove_balls.play()
-        if indexes[0] == len(self.balls) - 1:
+
+        if self.__is_last_ball_in_snake(indexes):
             self.balls = self.balls[:indexes[-1]]
-            if len(UNITS['way'].snakes) != 1:
+            if len(constants.WAY.snakes) != 1:
                 return
             self.status = Status.Stop
-            UNITS['way'].snakes.append(Snake(UNITS['way'].vectors, 1))
+            constants.WAY.snakes.append(Snake(constants.WAY.vectors, 1))
             return
-        if indexes[-1] == 0:
+
+        if self.__is_first_ball_in_snake(indexes):
             self.balls = self.balls[indexes[0] + 1:]
             return
+
         self.split(indexes)
+
+    def __find_matching_color_balls(self, index, color):
+        indexes = [index]
+        for direction in (-1, 1):
+            i = index + direction
+            while 0 <= i < len(self.balls):
+                if self.balls[i].color == color:
+                    indexes.append(i)
+                    i += direction
+                else:
+                    break
+        return indexes
+
+    def __is_last_ball_in_snake(self, indexes):
+        return indexes[0] == len(self.balls) - 1
+
+    def __is_first_ball_in_snake(self, indexes):
+        return indexes[-1] == 0
 
     def split(self, indexes):
         new_ball = self.balls[indexes[0] + 1:]
@@ -169,18 +189,14 @@ class Snake:
         self.balls = cur_ball
         new_snake = Snake(self.vectors, 0)
         new_snake.balls = new_ball
-        UNITS['way'].snakes.insert(self.id + 1, new_snake)
-        self.recover_indexes()
+        constants.WAY.snakes.insert(self.id + 1, new_snake)
+        recover_indexes()
         if new_ball[0].color == cur_ball[-1].color:
             self.status = Status.Back
             new_snake.status = Status.Stop
-            UNITS['score'].add(len(indexes))
+            constants.SCORE.add(len(indexes))
             return
         if self.status == Status.Stop:
             new_snake.status = Status.Stop
         self.status = Status.Stop
-        UNITS['score'].add(len(indexes))
-
-    def recover_indexes(self):
-        for i in range(len(UNITS['way'].snakes)):
-            UNITS['way'].snakes[i].id = i
+        constants.SCORE.add(len(indexes))

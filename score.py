@@ -1,8 +1,8 @@
-from constants import *
+import constants
+import pygame as pg
 
 
 class Score:
-
     def __init__(self, max_score):
         self.score = 0
         self.max_score = max_score
@@ -13,8 +13,8 @@ class Score:
         if self.score >= self.max_score:
             self.score = self.max_score
             if not self.is_full:
-                UNITS['way'].is_spawn = False
-                UNITS['way'].reverse()
+                constants.WAY.is_spawn = False
+                constants.WAY.reverse()
             self.is_full = True
 
     def update(self):
@@ -23,5 +23,5 @@ class Score:
         black_rect = [20, 20, 150, 40]
         length_green = self.score * 120 / self.max_score
         green_rect = [35, 25, length_green, 30]
-        pg.draw.rect(screen, black, black_rect)
-        pg.draw.rect(screen, green, green_rect)
+        pg.draw.rect(constants.screen, black, black_rect)
+        pg.draw.rect(constants.screen, green, green_rect)
