@@ -21,6 +21,7 @@ class Game:
         self.vectors = None
 
     def start_game(self):
+        start_music("sounds/music_menu.mp3")
         UNITS.clear()
         self.active_menu = True
         screen.blit(self.menu_background, self.rect_menu_background)
@@ -35,36 +36,20 @@ class Game:
                             self.active_menu = False
                             self.game_finished = True
                         else:
-                            self.map_background = self.level.map_background
-                            self.rect_map_background =\
-                                self.map_background.get_rect(
-                                    center=(WINDOW_WIDTH // 2,
-                                            WINDOW_HEIGHT // 2))
-                            self.vectors = self.level.vectors
-                            UNITS['way'] = Way(self.vectors,
-                                               self.level.starting_point_of_way)
-                            UNITS['frog'] = Frog()
-                            UNITS['frog'].center = self.level.frog_point
-                            UNITS['frog'].rect.center = self.level.frog_point
-                            UNITS['score'] = Score(150)
-                            start = Vector2(self.level.starting_point_of_way)
-                            for vect in self.vectors:
-                                start += vect
-                            UNITS['abyss'] = Abyss(start.x, start.y, len(self.vectors))
-                            self.active_menu = False
+                            self.start_level()
             pg.display.flip()
-        if self.game_finished:
-            pg.quit()
-            sys.exit()
+        self.check_end_game()
+        pause_music()
         self.update_all()
 
     def update_all(self):
+        start_music("sounds/music_level.mp3")
         while True:
             pg.time.Clock().tick(60)
             screen.blit(self.map_background, (0, 0))
             screen.blit(BUTTON_RETURN_MENU.image, BUTTON_RETURN_MENU.rect)
             UNITS['abyss'].update()
-            #UNITS['way'].draw_road()
+            # UNITS['way'].draw_road()
             UNITS['frog'].update()
             for key in UNITS:
                 if key == 'frog' or key == 'way' or key == 'score' or key == 'abyss':
@@ -76,6 +61,40 @@ class Game:
                 UNITS.pop(obj.hash)
             DELS.clear()
             pg.display.flip()
+
+    def check_end_game(self):
+        if self.game_finished:
+            pg.quit()
+            sys.exit()
+
+    def start_level(self):
+        self.map_background = self.level.map_background
+        self.rect_map_background = \
+            self.map_background.get_rect(
+                center=(WINDOW_WIDTH // 2,
+                        WINDOW_HEIGHT // 2))
+        self.vectors = self.level.vectors
+        UNITS['way'] = Way(self.vectors,
+                           self.level.starting_point_of_way)
+        UNITS['frog'] = Frog()
+        UNITS['frog'].center = self.level.frog_point
+        UNITS['frog'].rect.center = self.level.frog_point
+        UNITS['score'] = Score(150)
+        start = Vector2(self.level.starting_point_of_way)
+        for vect in self.vectors:
+            start += vect
+        UNITS['abyss'] = Abyss(start.x, start.y,
+                               len(self.vectors))
+        self.active_menu = False
+
+
+def start_music(music_name):
+    pg.mixer.music.load(music_name)
+    pg.mixer.music.play(-1)
+
+
+def pause_music():
+    pg.mixer_music.pause()
 
 
 if __name__ == "__main__":

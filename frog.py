@@ -42,6 +42,7 @@ class Frog:
                     self.swap()
 
     def shoot(self):
+        sound_shot.play()
         self.mouth.update_direction(self.direction.normalize() * 40)
         self.mouth.is_shoot = True
         UNITS[self.mouth.hash] = self.mouth
