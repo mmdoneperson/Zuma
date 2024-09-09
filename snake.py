@@ -9,6 +9,8 @@ class Snake:
         self.balls = []
         self.id = id
         self.status = Status.Forward
+        self.sound_remove_balls = pg.mixer.Sound(r"sounds\endoflevelpop1.ogg")
+        self.sound_insert_ball = pg.mixer.Sound(r"sounds\ballclick2.ogg")
 
     def update(self):
         if len(self.balls) == 0:
@@ -102,6 +104,7 @@ class Snake:
                 break
 
     def kek(self, color):
+        self.sound_insert_ball.play()
         sum_vectors = Vector2(0, 0)
         for i in range(self.balls[0].index_way, min(self.balls[0].index_way + 20, len(self.vectors))):
             sum_vectors += self.vectors[i]
@@ -114,6 +117,7 @@ class Snake:
         self.remove_balls(0)
 
     def insert(self, index, color):
+        self.sound_insert_ball.play()
         sum_vectors = Vector2(0, 0)
         for i in range(self.balls[0].index_way, min(self.balls[0].index_way + 20, len(self.vectors))):
             sum_vectors += self.vectors[i]
@@ -146,6 +150,7 @@ class Snake:
         if len(indexes) <= 2:
             return
         indexes.sort(reverse=True)
+        self.sound_remove_balls.play()
         if indexes[0] == len(self.balls) - 1:
             self.balls = self.balls[:indexes[-1]]
             if len(UNITS['way'].snakes) != 1:

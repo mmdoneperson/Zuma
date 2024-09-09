@@ -16,6 +16,7 @@ class Frog:
         self.spine = Ball(Vector2(self.center - self.direction.normalize() * 40), radius_ball // 2)
         self.is_end = False
         self.timer_start = time.time()
+        self.sound_shot = pg.mixer.Sound(r"sounds\shot.ogg")
 
     def update(self):
         x, y = pg.mouse.get_pos()
@@ -34,7 +35,7 @@ class Frog:
             if event.type == pg.MOUSEBUTTONDOWN and not self.is_end:
                 if event.button == 1:
                     if BUTTON_RETURN_MENU.rect.collidepoint(pg.mouse.get_pos()):
-                        GAME[0].start_game()
+                        BUTTON_RETURN_MENU.command()
                     if time.time() - self.timer_start >= 0.2:
                         self.shoot()
                         self.timer_start = time.time()
@@ -42,7 +43,7 @@ class Frog:
                     self.swap()
 
     def shoot(self):
-        sound_shot.play()
+        self.sound_shot.play()
         self.mouth.update_direction(self.direction.normalize() * 40)
         self.mouth.is_shoot = True
         UNITS[self.mouth.hash] = self.mouth

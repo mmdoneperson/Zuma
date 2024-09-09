@@ -4,7 +4,7 @@ from way import Way
 from score import Score
 from abyss import Abyss
 from pygame import Vector2
-import sys
+import system_functions
 
 
 class Game:
@@ -21,7 +21,7 @@ class Game:
         self.vectors = None
 
     def start_game(self):
-        start_music("sounds/music_menu.mp3")
+        system_functions.start_music("sounds/music_menu.mp3")
         UNITS.clear()
         self.active_menu = True
         screen.blit(self.menu_background, self.rect_menu_background)
@@ -32,18 +32,13 @@ class Game:
                         if not button.check_click(pg.mouse.get_pos()):
                             continue
                         self.level = button.command()
-                        if self.level is None:
-                            self.active_menu = False
-                            self.game_finished = True
-                        else:
-                            self.start_level()
+                        self.start_level()
             pg.display.flip()
-        self.check_end_game()
-        pause_music()
+        system_functions.pause_music()
         self.update_all()
 
     def update_all(self):
-        start_music("sounds/music_level.mp3")
+        system_functions.start_music("sounds/music_level.mp3")
         while True:
             pg.time.Clock().tick(60)
             screen.blit(self.map_background, (0, 0))
@@ -64,8 +59,8 @@ class Game:
 
     def check_end_game(self):
         if self.game_finished:
-            pg.quit()
-            sys.exit()
+            system_functions.close_game()
+
 
     def start_level(self):
         self.map_background = self.level.map_background
@@ -86,15 +81,6 @@ class Game:
         UNITS['abyss'] = Abyss(start.x, start.y,
                                len(self.vectors))
         self.active_menu = False
-
-
-def start_music(music_name):
-    pg.mixer.music.load(music_name)
-    pg.mixer.music.play(-1)
-
-
-def pause_music():
-    pg.mixer_music.pause()
 
 
 if __name__ == "__main__":
