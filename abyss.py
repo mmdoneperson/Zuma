@@ -6,7 +6,7 @@ class Abyss:
         self.x = x
         self.y = y
         self.length = length - 500
-        self.image = pg.transform.scale(pg.image.load("end.png"), (150, 150))
+        self.image = pg.transform.scale(pg.image.load("image/end.png"), (150, 150))
         self.rect_image = self.image.get_rect(center=(self.x - 2, self.y - 2))
 
     def update(self):

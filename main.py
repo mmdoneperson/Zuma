@@ -14,7 +14,7 @@ class Game:
         self.map_background = None
         self.rect_map_background = None
         self.menu_background = pg.transform.scale(
-            pg.image.load("menu.png"), (WINDOW_WIDTH, WINDOW_HEIGHT))
+            pg.image.load("image/menu.png"), (WINDOW_WIDTH, WINDOW_HEIGHT))
         self.rect_menu_background = self.menu_background.get_rect(
             center=(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2))
         self.level = None

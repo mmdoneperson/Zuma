@@ -7,7 +7,7 @@ import time
 
 class Frog:
     def __init__(self):
-        self.sprite_image = pg.transform.scale(pg.image.load("zuma.png"), (150, 150))
+        self.sprite_image = pg.transform.scale(pg.image.load("image/zuma.png"), (150, 150))
         self.center = Vector2(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
         self.rect = self.sprite_image.get_rect(center=self.center)
         self.coord = Vector2(0, 1)
