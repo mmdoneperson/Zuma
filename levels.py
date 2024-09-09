@@ -34,6 +34,7 @@ def load_level_1():
             pg.image.load("first_map.png"),
             (constants.WINDOW_WIDTH, constants.WINDOW_HEIGHT)).convert())
 
+
 def change_angle(i):
     if 0 <= i < 500:
         return math.pi / 350
@@ -44,9 +45,8 @@ def change_angle(i):
     return math.pi / 1000
 
 
-
 def load_level_2():
-    vectors = [Vector2(2,0)] * 27
+    vectors = [Vector2(2, 0)] * 27
     length = 900
     width = 430
     angle = 1
@@ -68,14 +68,13 @@ def load_level_2():
 
 def load_level_3():
     vectors = []
-
     for t in range(1, 1400):
         x = abs(t / 100 * math.cos(t / 100))
         y = t / 100 * math.sin(t / 100)
         vectors.append(Vector2(x, y).normalize() * 2)
     for i in range(300):
         vectors.append(Vector2(0, 2))
-    for t in range(500, 1850):
+    for t in range(500, 1835):
         x = -abs(t / 100 * math.cos(t / 100))
         y = -t / 100 * math.sin(t / 100)
         vectors.append(Vector2(x, y).normalize() * 2)

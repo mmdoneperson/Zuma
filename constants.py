@@ -23,8 +23,8 @@ MENU_BUTTONS = [
 GAME = []
 DELS = []
 BUTTON_RETURN_MENU = Button(lambda: None, 1700, 0, 220, 60)
-BUTTON_RETURN_MENU.image = pg.transform.scale(pg.image.load("yellowBall.png"), (150, 150))
-BUTTON_RETURN_MENU.rect = BUTTON_RETURN_MENU.image.get_rect(center=pg.Vector2(1810, 30))
+BUTTON_RETURN_MENU.image = pg.transform.scale(pg.image.load("exit.png"), (180, 70))
+BUTTON_RETURN_MENU.rect = BUTTON_RETURN_MENU.image.get_rect(center=pg.Vector2(1810, 34))
 
 
 

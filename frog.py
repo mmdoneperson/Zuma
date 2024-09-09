@@ -35,7 +35,7 @@ class Frog:
                 if event.button == 1:
                     if BUTTON_RETURN_MENU.rect.collidepoint(pg.mouse.get_pos()):
                         GAME[0].start_game()
-                    if time.time() - self.timer_start >= 0:
+                    if time.time() - self.timer_start >= 0.2:
                         self.shoot()
                         self.timer_start = time.time()
                 elif event.button == 3:

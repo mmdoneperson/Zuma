@@ -7,7 +7,7 @@ class Abyss:
         self.y = y
         self.length = length - 500
         self.image = pg.transform.scale(pg.image.load("end.png"), (150, 150))
-        self.rect_image = self.image.get_rect(center=(self.x, self.y))
+        self.rect_image = self.image.get_rect(center=(self.x - 2, self.y - 2))
 
     def update(self):
         black = (0, 0, 0)
@@ -15,4 +15,4 @@ class Abyss:
         if len(UNITS['way'].snakes[0].balls) > 0:
             index = UNITS['way'].snakes[0].balls[0].index_way
             if index >= self.length:
-                pg.draw.circle(screen, black, (self.x, self.y), 40 * (index - self.length) / 500, 0)
+                pg.draw.circle(screen, black, (self.x, self.y), 38 * (index - self.length) / 500, 0)
