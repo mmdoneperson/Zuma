@@ -110,36 +110,83 @@ class Snake:
                 self.remove_balls(index)
                 break
 
-    def kek(self, color):
+    def insert_ball_into_beginning(self, color):
+        self.insert_ball(None,
+                         self.balls[0].index_way + 20,
+                         0,
+                         color,
+                         lambda index, old_color: color)
+        # self.sound_insert_ball.play()
+        # sum_vectors = self.calculate_sum_vectors()
+        #
+        # new_ball = Ball(self.balls[0].center + sum_vectors)
+        # new_ball.index_way = self.balls[0].index_way + 20
+        # new_ball.update_direction(self.vectors[new_ball.index_way])
+        # new_ball.change_color(color)
+        #
+        # self.balls.insert(0, new_ball)
+        # self.remove_balls(0)
+
+    def insert_ball_into_middle(self, index, color):
+        self.insert_ball(index,
+                         min(self.balls[0].index_way + 20,
+                             len(self.vectors) - 1),
+                         index + 1,
+                         color,
+                         self.repainting)
+        # self.sound_insert_ball.play()
+        # sum_vectors = self.calculate_sum_vectors()
+        #
+        # cur_color = color
+        # for i in range(index, -1, -1):
+        #     temp = self.balls[i].color
+        #     self.balls[i].change_color(cur_color)
+        #     cur_color = temp
+        #
+        # new_ball = Ball(self.balls[0].center + sum_vectors)
+        # new_ball.index_way = min(self.balls[0].index_way + 20, len(self.vectors) - 1)
+        # new_ball.update_direction(self.vectors[new_ball.index_way])
+        # new_ball.change_color(cur_color)
+        #
+        # self.balls.insert(0, new_ball)
+        # self.remove_balls(index + 1)
+
+    def insert_ball(self,
+                    index_for_repainting,
+                    index_way,
+                    remove_index,
+                    color,
+                    repainting):
+
         self.sound_insert_ball.play()
-        sum_vectors = Vector2(0, 0)
-        for i in range(self.balls[0].index_way, min(self.balls[0].index_way + 20, len(self.vectors))):
-            sum_vectors += self.vectors[i]
+        sum_vectors = self.calculate_sum_vectors()
+        cur_color = repainting(index_for_repainting, color)
 
         new_ball = Ball(self.balls[0].center + sum_vectors)
-        new_ball.index_way = self.balls[0].index_way + 20
+        new_ball.index_way = index_way
         new_ball.update_direction(self.vectors[new_ball.index_way])
-        new_ball.change_color(color)
-        self.balls.insert(0, new_ball)
-        self.remove_balls(0)
+        new_ball.change_color(cur_color)
 
-    def insert(self, index, color):
-        self.sound_insert_ball.play()
-        sum_vectors = Vector2(0, 0)
-        for i in range(self.balls[0].index_way, min(self.balls[0].index_way + 20, len(self.vectors))):
-            sum_vectors += self.vectors[i]
+        self.balls.insert(0, new_ball)
+        self.remove_balls(remove_index)
+
+
+    def repainting(self, index, color):
         cur_color = color
         for i in range(index, -1, -1):
             temp = self.balls[i].color
             self.balls[i].change_color(cur_color)
             cur_color = temp
-        new_ball = Ball(self.balls[0].center + sum_vectors)
-        new_ball.index_way = min(self.balls[0].index_way + 20, len(self.vectors) - 1)
-        new_ball.update_direction(self.vectors[new_ball.index_way])
-        new_ball.change_color(cur_color)
+        return cur_color
 
-        self.balls.insert(0, new_ball)
-        self.remove_balls(index + 1)
+    def calculate_sum_vectors(self):
+        sum_vectors = Vector2(0, 0)
+        for i in range(self.balls[0].index_way,
+                       min(self.balls[0].index_way + 20,
+                           len(self.vectors))):
+            sum_vectors += self.vectors[i]
+        return sum_vectors
+
 
     def remove_balls(self, index):
         color = self.balls[index].color
@@ -184,19 +231,38 @@ class Snake:
         return indexes[-1] == 0
 
     def split(self, indexes):
-        new_ball = self.balls[indexes[0] + 1:]
-        cur_ball = self.balls[0: indexes[-1]]
+        new_ball, cur_ball = self.__split_balls(indexes)
+        new_snake = self.__create_new_snake(new_ball)
+
         self.balls = cur_ball
-        new_snake = Snake(self.vectors, 0)
-        new_snake.balls = new_ball
         constants.WAY.snakes.insert(self.id + 1, new_snake)
         recover_indexes()
+
+        self.__check_and_update_status(new_snake, cur_ball, new_ball, indexes)
+
+    # Новый метод для разделения шаров
+    def __split_balls(self, indexes):
+        new_ball = self.balls[indexes[0] + 1:]
+        cur_ball = self.balls[0: indexes[-1]]
+        return new_ball, cur_ball
+
+    # Новый метод для создания новой змеи
+    def __create_new_snake(self, new_ball):
+        new_snake = Snake(self.vectors, 0)
+        new_snake.balls = new_ball
+        return new_snake
+
+    # Новый метод для проверки и обновления статуса змей
+    def __check_and_update_status(self, new_snake, cur_ball, new_ball, indexes):
         if new_ball[0].color == cur_ball[-1].color:
             self.status = Status.Back
             new_snake.status = Status.Stop
             constants.SCORE.add(len(indexes))
             return
+
         if self.status == Status.Stop:
             new_snake.status = Status.Stop
+
         self.status = Status.Stop
         constants.SCORE.add(len(indexes))
+
