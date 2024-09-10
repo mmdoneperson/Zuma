@@ -34,10 +34,19 @@ class Game:
                         if not button.check_click(pg.mouse.get_pos()):
                             continue
                         self.level = button.command()
-                        self.start_level()
+                        if self.level is not None:
+                            self.start_level()
+                        self.update_menu()
             pg.display.flip()
         system_functions.pause_music()
         self.update_all()
+
+    def update_menu(self):
+        constants.screen.blit(self.menu_background, self.rect_menu_background)
+        for button in constants.BUTTONS_FOR_UPDATE.values():
+            button.draw()
+
+
 
     def update_all(self):
         system_functions.start_music("sounds/music_level.mp3")

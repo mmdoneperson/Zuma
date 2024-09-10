@@ -2,8 +2,8 @@ import pygame as pg
 
 
 class Button:
-    def __init__(self, funct, x, y, width, height):
-        self.funct = funct
+    def __init__(self, functions, x, y, width, height):
+        self.functions = functions
         self.rect = pg.rect.Rect(x, y, width, height)
         self.image = None
         self.rect_image = None
@@ -14,4 +14,6 @@ class Button:
 
     def command(self):
         self.sound.play()
-        return self.funct()
+        for function in self.functions:
+            function()
+

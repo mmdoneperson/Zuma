@@ -74,40 +74,76 @@ class Snake:
             ball.update()
 
     def __back(self):
-        if self.id != len(constants.WAY.snakes) - 1:
-            if constants.WAY.snakes[self.id + 1].status == Status.Forward:
-                self.status = Status.Stop
+        if self.__is_next_snake_moving_forward():
+            self.status = Status.Stop
+            return
+
+        for _ in range(3):
+            self.__move_balls_backwards()
+
+            if self.__should_stop_reverse():
                 return
-        for i in range(3):
-            for i, ball in enumerate(self.balls):
-                if ball.index_way - 1 == -1:
-                    self.balls.pop(i)
-                    if len(self.balls) == 0:
-                        constants.WAY.snakes.pop(self.id)
-                    continue
-                ball.update_direction(-1 * self.vectors[ball.index_way - 1])
-                ball.update()
-                ball.index_way -= 1
-            if constants.WAY.reverse_count > 0 or len(constants.WAY.snakes) == self.id + 1:
-                return
-            difference = abs(self.balls[-1].index_way - constants.WAY.snakes[self.id + 1].balls[0].index_way)
-            if difference <= 20:
-                self.status = Status.Forward
-                for i in range(20 - difference):
-                    self.update()
-                index = len(self.balls) - 1
-                self.balls = self.balls + constants.WAY.snakes[self.id + 1].balls
-                constants.WAY.snakes.pop(self.id + 1)
-                recover_indexes()
-                self.status = Status.Stop
-                snakes = constants.WAY.snakes
-                for i in range(len(snakes) - 1, -1, -1):
-                    if snakes[i].status == Status.Forward:
-                        break
-                    if snakes[i].status == Status.Stop:
-                        snakes[i].status = Status.Forward
-                        break
-                self.remove_balls(index)
+
+            if self.__can_merge_with_next_snake():
+                self.__merge_with_next_snake()
+                break
+
+    # Новый метод для проверки статуса следующей змеи
+    def __is_next_snake_moving_forward(self):
+        return self.id != len(constants.WAY.snakes) - 1 and \
+            constants.WAY.snakes[self.id + 1].status == Status.Forward
+
+    # Новый метод для перемещения шаров назад
+    def __move_balls_backwards(self):
+        for i, ball in enumerate(self.balls):
+            if ball.index_way - 1 == -1:
+                self.balls.pop(i)
+                if len(self.balls) == 0:
+                    constants.WAY.snakes.pop(self.id)
+                continue
+            ball.update_direction(-1 * self.vectors[ball.index_way - 1])
+            ball.update()
+            ball.index_way -= 1
+
+    # Новый метод для проверки условий остановки реверса
+    def __should_stop_reverse(self):
+        return constants.WAY.reverse_count > 0 or len(
+            constants.WAY.snakes) == self.id + 1
+
+    # Новый метод для проверки возможности объединения с соседней змеёй
+    def __can_merge_with_next_snake(self):
+        next_snake = constants.WAY.snakes[self.id + 1]
+        difference = abs(
+            self.balls[-1].index_way - next_snake.balls[0].index_way)
+        return difference <= 20
+
+    # Новый метод для объединения с соседней змеёй
+    def __merge_with_next_snake(self):
+        next_snake = constants.WAY.snakes[self.id + 1]
+        difference = abs(
+            self.balls[-1].index_way - next_snake.balls[0].index_way)
+
+        self.status = Status.Forward
+        for _ in range(20 - difference):
+            self.update()
+
+        index = len(self.balls) - 1
+        self.balls = self.balls + next_snake.balls
+        constants.WAY.snakes.pop(self.id + 1)
+
+        recover_indexes()
+        self.status = Status.Stop
+        self.__update_snake_statuses()
+        self.remove_balls(index)
+
+    # Новый метод для обновления статусов змей
+    def __update_snake_statuses(self):
+        snakes = constants.WAY.snakes
+        for i in range(len(snakes) - 1, -1, -1):
+            if snakes[i].status == Status.Forward:
+                break
+            if snakes[i].status == Status.Stop:
+                snakes[i].status = Status.Forward
                 break
 
     def insert_ball_into_beginning(self, color):
@@ -120,8 +156,7 @@ class Snake:
         # sum_vectors = self.calculate_sum_vectors()
         #
         # new_ball = Ball(self.balls[0].center + sum_vectors)
-        # new_ball.index_way = self.balls[0].index_way + 20
-        # new_ball.update_direction(self.vectors[new_ball.index_way])
+        # new_ball.index_way = self.balls[0].index_way + 20        # new_ball.update_direction(self.vectors[new_ball.index_way])
         # new_ball.change_color(color)
         #
         # self.balls.insert(0, new_ball)
