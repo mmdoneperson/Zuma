@@ -30,16 +30,14 @@ class Game:
         while self.active_menu:
             for event in pg.event.get():
                 if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-                    for button in constants.MENU_BUTTONS:
+                    print(pg.mouse.get_pos())
+                    for button in constants.MENU_BUTTONS.values():
                         if not button.check_click(pg.mouse.get_pos()):
                             continue
-                        self.level = button.command()
-                        if self.level is not None:
-                            self.start_level()
+                        button.command()
                         self.update_menu()
             pg.display.flip()
-        system_functions.pause_music()
-        self.update_all()
+
 
     def update_menu(self):
         constants.screen.blit(self.menu_background, self.rect_menu_background)
@@ -89,6 +87,8 @@ class Game:
         constants.ABYSS = Abyss(start.x, start.y,
                                          len(self.vectors))
         self.active_menu = False
+        system_functions.pause_music()
+        self.update_all()
 
 
 if __name__ == "__main__":

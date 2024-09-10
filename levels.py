@@ -26,7 +26,7 @@ def load_level_1():
         old_x = x
         old_y = y
     vectors.reverse()
-    return Level(
+    constants.GAME.level = Level(
         vectors,
         Vector2(450, 250),
         Vector2(1340, 400),
@@ -58,7 +58,7 @@ def load_level_2():
         length -= 100
         width -= 50
         angle *= -1
-    return Level(vectors, Vector2(-20, 100), Vector2(
+    constants.GAME.level = Level(vectors, Vector2(-20, 100), Vector2(
         constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2),
                  pg.transform.scale(
                      pg.image.load("image/map_road.png"),
@@ -80,7 +80,7 @@ def load_level_3():
         x = -abs(t / 100 * math.cos(t / 100))
         y = -t / 100 * math.sin(t / 100)
         vectors.append(Vector2(x, y).normalize() * 2)
-    return Level(vectors, Vector2(-20, 100), Vector2(
+    constants.GAME.level = Level(vectors, Vector2(-20, 100), Vector2(
         848, 546),
                  pg.transform.scale(
                      pg.image.load("image/map_sin.png"),
