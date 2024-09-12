@@ -77,7 +77,7 @@ class Game:
         constants.FROG = Frog()
         constants.FROG.center = self.level.frog_point
         constants.FROG.rect.center = self.level.frog_point
-        constants.SCORE = Score(5)
+        constants.SCORE = Score(150)
         start = Vector2(self.level.starting_point_of_way)
         for vect in self.vectors:
             start += vect

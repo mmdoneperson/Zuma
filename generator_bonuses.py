@@ -2,6 +2,7 @@ import random
 import time
 import constants
 from bonus import Bonus
+import pygame as pg
 class Generator:
     def __init__(self):
         self.timer = time.time()
@@ -20,3 +21,4 @@ class Generator:
         snake = snakes[rand]
         rand = random.randint(0, len(snake.balls) - 1)
         snake.balls[rand].bonus = Bonus()
+        pg.mixer.Sound(r"sounds\add_bonus_in_way.ogg").play()
