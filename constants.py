@@ -19,18 +19,24 @@ WAY = None
 SCORE = None
 FROG = None
 ABYSS = None
-LEADERBOARD = leaderboard.Leaderboard()
+ACTIVATOR = None
+GENERATOR = None
 COUNTER = counter.Counter()
+LEADERBOARD = leaderboard.Leaderboard()
 
-BALL_COLORS = [r"image\blueBall.png", r"image\greenBall.png",
-          r"image\purpleBall.png", r"image\redBall.png",
-          r"image\yellowBall.png"]
-
-BALL_SPRITES = dict()
-for color in BALL_COLORS:
+COLORS = ['blue', 'green', 'purple', 'red', 'yellow']
+BONUSES = ['bomb', 'pause', 'reverse', 'speed']
+SPRITE_COLORS = [r"image\blueBall.png", r"image\greenBall.png",
+                 r"image\purpleBall.png", r"image\redBall.png",
+                 r"image\yellowBall.png", r"image\bomb.png",
+                 r"image\pause.png", r"image\reverse.png",
+                 r"image\speed.png"
+                 ]
+SPRITES = dict()
+for color in SPRITE_COLORS:
     sprite_image = pg.image.load(color).convert_alpha()
     sprite_image = pg.transform.scale(sprite_image, (radius_ball, radius_ball))
-    BALL_SPRITES[color] = sprite_image
+    SPRITES[color] = sprite_image
 
 
 MENU_BUTTONS = {
@@ -61,5 +67,4 @@ BUTTON_RETURN_MENU.image = pg.transform.scale(
 (180, 70))
 BUTTON_RETURN_MENU.rect = BUTTON_RETURN_MENU.image.get_rect(
     center=pg.Vector2(1810, 30))
-
 
