@@ -42,8 +42,8 @@ MENU_BUTTONS = {
 }
 
 LEADERBOARD_BUTTONS = {
-    "close leaderboard": Button([LEADERBOARD.close, lambda: GAME.start_game()], False, 0, 0, 100, 100),
-    "start level": Button([lambda: GAME.start_level()], False, 0, WINDOW_HEIGHT - 100, 100, 100)
+    "close leaderboard": Button([LEADERBOARD.close, lambda: GAME.start_game()], False, 1130, 770, 190, 70),
+    "start level": Button([lambda: GAME.start_level()], False, 860, 515, 440, 185)
 }
 
 # MENU_BUTTONS = [
@@ -54,7 +54,7 @@ LEADERBOARD_BUTTONS = {
 #     Button(LEADERBOARD.click, 0, 0, 100, 100)
 # ]
 
-BUTTON_RETURN_MENU = Button([LEADERBOARD.close, LEADERBOARD.remember_score, lambda: GAME.start_game()], True, 1700, 0, 220, 60)
+BUTTON_RETURN_MENU = Button([LEADERBOARD.remember_score, LEADERBOARD.close, lambda: GAME.start_game()], True, 1700, 0, 220, 60)
 BUTTON_RETURN_MENU.image = pg.transform.scale(
     pg.image.load(r"image\exit.png"),
 (180, 70))

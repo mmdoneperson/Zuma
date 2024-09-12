@@ -1,15 +1,29 @@
 {
   "levels": {
     "level 1": {
-      "Player1": 1500,
-      "Player2": 1200,
-      "Player3": 1700
+      "Player1": 0,
+      "Player2": 1,
+      "Player3": 2,
+      "pupa": 3,
+      "sex boom": 3,
+      "sasa": 0,
+      "aaa": 0
     },
     "level 2": {
-      "Player2": 1200
+      "Player2": 1
     },
     "level 3": {
-      "Player3": 1700
+      "Player3": 2
     }
+  },
+  "last_player": {
+    "level 1": [
+      "player1",
+      10
+    ],
+    "level 2": [
+      "player1",
+      10
+    ]
   }
 }
