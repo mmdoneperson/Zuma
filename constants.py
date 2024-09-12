@@ -10,16 +10,19 @@ WINDOW_WIDTH = screen_info.current_w
 WINDOW_HEIGHT = screen_info.current_h
 screen = pg.display.set_mode([WINDOW_WIDTH, WINDOW_HEIGHT])
 radius_ball = 40
-
-BALL_COLORS = [r"image\blueBall.png", r"image\greenBall.png",
-          r"image\purpleBall.png", r"image\redBall.png",
-          r"image\yellowBall.png"]
-
-BALL_SPRITES = dict()
-for color in BALL_COLORS:
+COLORS = ['blue', 'green', 'purple', 'red', 'yellow']
+BONUSES = ['bomb', 'pause', 'reverse', 'speed']
+SPRITE_COLORS = [r"image\blueBall.png", r"image\greenBall.png",
+                 r"image\purpleBall.png", r"image\redBall.png",
+                 r"image\yellowBall.png", r"image\bomb.png",
+                 r"image\pause.png", r"image\reverse.png",
+                 r"image\speed.png"
+                 ]
+SPRITES = dict()
+for color in SPRITE_COLORS:
     sprite_image = pg.image.load(color).convert_alpha()
     sprite_image = pg.transform.scale(sprite_image, (radius_ball, radius_ball))
-    BALL_SPRITES[color] = sprite_image
+    SPRITES[color] = sprite_image
 
 MENU_BUTTONS = [
     Button(levels.load_level_1, 1375, 154, 390, 159),
@@ -30,7 +33,7 @@ MENU_BUTTONS = [
 BUTTON_RETURN_MENU = Button(lambda: GAME.start_game(), 1700, 0, 220, 60)
 BUTTON_RETURN_MENU.image = pg.transform.scale(
     pg.image.load(r"image\exit.png"),
-(180, 70))
+    (180, 70))
 BUTTON_RETURN_MENU.rect = BUTTON_RETURN_MENU.image.get_rect(
     center=pg.Vector2(1810, 30))
 
@@ -41,4 +44,6 @@ WAY = None
 SCORE = None
 FROG = None
 ABYSS = None
+ACTIVATOR = None
+GENERATOR = None
 COUNTER = counter.Counter()

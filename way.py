@@ -16,30 +16,78 @@ class Way:
         self.is_end = False
         self.is_spawn = True
         self.reverse_count = 0
+        self.stop_count = 0
         self.rects = []
         self.statuses = []
 
     def update(self):
+        if len(self.snakes) == 1 and not self.is_spawn:
+            if self.reverse_count + self.stop_count == 0:
+                if self.snakes[0].status != Status.Forward:
+                    self.snakes[0].status = Status.Forward
         if self.is_end:
             self.end_level()
             return
         if self.reverse_count > 0:
-            for snake in self.snakes:
-                snake.update()
-            self.reverse_count -= 1
-            if self.reverse_count == 0:
-                for i in range(len(self.snakes)):
-                    self.snakes[i].status = self.statuses[i]
+            self.__reverse()
+        if self.stop_count > 0:
+            self.__stop()
         else:
             self.spawn()
             for snake in self.snakes:
                 snake.update()
 
+    def __stop(self):
+        for snake in self.snakes:
+            snake.status = Status.Stop
+            snake.update()
+        self.stop_count -= 1
+        if self.stop_count == 0:
+            self.__recover_way()
+
+    def __reverse(self):
+        for snake in self.snakes:
+            snake.status = Status.Back
+            snake.update()
+        self.reverse_count -= 1
+        if self.reverse_count == 0:
+            self.__recover_way()
+
+    def __recover_way(self):
+        forward_init = False
+        for i in range(min(len(self.snakes), len(self.statuses))):
+            self.snakes[i].status = self.statuses[i]
+            if self.snakes[i].status == Status.Forward:
+                forward_init = True
+        if len(self.statuses) < len(self.snakes) and i == len(self.statuses) - 1:
+            for x in range(i + 1):
+                if self.snakes[x].status == Status.Forward:
+                    self.snakes[x].status = Status.Stop
+            for q in range(i + 1, len(self.snakes)):
+                self.snakes[q].status = Status.Stop
+            self.snakes[-1].status = Status.Forward
+        if not forward_init:
+            if len(self.snakes) == 0:
+                self.snakes.append(Snake(self.vectors, 0))
+            if len(self.snakes) == 1:
+                self.snakes[0].status = Status.Stop
+                self.snakes.append(Snake(self.vectors, 1))
+            self.snakes[-1].status = Status.Forward
+        if len(self.snakes[-1].balls) > 0 and self.snakes[-1].balls[
+            -1].index_way > 20 and constants.WAY.is_spawn:
+            self.snakes[-1].status = Status.Stop
+            self.snakes.append(Snake(self.vectors, len(self.snakes)))
+
     def spawn(self):
         if self.count >= 20 and self.is_spawn:
+            if len(self.snakes) == 0:
+                self.snakes.append(Snake(self.vectors, 0))
             if (len(self.snakes[-1].balls) > 0
                     and self.snakes[-1].balls[-1].index_way < 20):
                 return
+            if len(self.snakes[-1].balls) > 0 and self.snakes[-1].balls[-1].index_way > 20:
+                self.snakes[-1].status = Status.Stop
+                self.snakes.append(Snake(self.vectors, len(self.snakes)))
             self.count = 0
             ball = Ball(Vector2(self.start), 40)
             ball.index_way = 0
@@ -73,9 +121,22 @@ class Way:
             for i in range(30):
                 snake.update()
 
-    def reverse(self):
+    def reverse(self, statuses=None):
+        self.reverse_count = 50
         self.statuses = []
-        self.reverse_count = 200
-        for snake in self.snakes:
-            self.statuses.append(snake.status)
-            snake.status = Status.Back
+        if statuses is not None:
+            self.statuses = statuses
+        else:
+            for snake in self.snakes:
+                self.statuses.append(snake.status)
+                snake.status = Status.Back
+
+    def stop(self, statuses=None):
+        self.stop_count = 50
+        self.statuses = []
+        if statuses is not None:
+            self.statuses = statuses
+        else:
+            for snake in self.snakes:
+                self.statuses.append(snake.status)
+                snake.status = Status.Stop

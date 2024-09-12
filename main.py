@@ -6,6 +6,8 @@ from score import Score
 from abyss import Abyss
 from pygame import Vector2
 import system_functions
+from activator_bonuses import Activator
+from generator_bonuses import Generator
 
 
 class Game:
@@ -52,6 +54,8 @@ class Game:
                 constants.EXPOSED_BALLS[key].update()
             constants.WAY.update()
             constants.SCORE.update()
+            constants.ACTIVATOR.update()
+            constants.GENERATOR.update()
             for obj in constants.REMOVED_BALLS:
                 constants.EXPOSED_BALLS.pop(obj.hash)
             constants.REMOVED_BALLS.clear()
@@ -69,16 +73,18 @@ class Game:
                         constants.WINDOW_HEIGHT // 2))
         self.vectors = self.level.vectors
         constants.WAY = Way(self.vectors,
-                                     self.level.starting_point_of_way)
+                            self.level.starting_point_of_way)
         constants.FROG = Frog()
         constants.FROG.center = self.level.frog_point
         constants.FROG.rect.center = self.level.frog_point
-        constants.SCORE = Score(150)
+        constants.SCORE = Score(5)
         start = Vector2(self.level.starting_point_of_way)
         for vect in self.vectors:
             start += vect
         constants.ABYSS = Abyss(start.x, start.y,
-                                         len(self.vectors))
+                                len(self.vectors))
+        constants.ACTIVATOR = Activator()
+        constants.GENERATOR = Generator()
         self.active_menu = False
 
 

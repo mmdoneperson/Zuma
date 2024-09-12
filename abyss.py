@@ -14,7 +14,7 @@ class Abyss:
     def update(self):
         black = (0, 0, 0)
         constants.screen.blit(self.image, self.rect_image)
-        if len(constants.WAY.snakes[0].balls) > 0:
+        if len(constants.WAY.snakes) > 0 and len(constants.WAY.snakes[0].balls) > 0:
             index = constants.WAY.snakes[0].balls[0].index_way
             if index >= self.length:
                 pg.draw.circle(constants.screen,

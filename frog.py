@@ -23,6 +23,7 @@ class Frog:
         self.is_end = False
         self.timer_start = time.time()
         self.sound_shot = pg.mixer.Sound(r"sounds\shot.ogg")
+        self.fast_shot = 0
 
     def update(self):
         x, y = pg.mouse.get_pos()
@@ -52,7 +53,10 @@ class Frog:
                     if constants.BUTTON_RETURN_MENU.rect.collidepoint(
                             pg.mouse.get_pos()):
                         constants.BUTTON_RETURN_MENU.command()
-                    if time.time() - self.timer_start >= 0.2:
+                    temp = 1
+                    if self.fast_shot > 0:
+                        temp = 2
+                    if time.time() - self.timer_start >= 0.2 / temp:
                         self.shoot()
                         self.timer_start = time.time()
                 elif event.button == 3:
@@ -60,8 +64,13 @@ class Frog:
 
     def shoot(self):
         self.sound_shot.play()
-        self.mouth.update_direction(self.direction.normalize() * 40)
+        if self.fast_shot > 0:
+            self.mouth.update_direction(self.direction.normalize() * 80)
+            self.fast_shot -= 1
+        else:
+            self.mouth.update_direction(self.direction.normalize() * 40)
         self.mouth.is_shoot = True
+        self.mouth.bonus = None
         constants.EXPOSED_BALLS[self.mouth.hash] = self.mouth
         self.mouth = Ball(
             Vector2(self.center + self.direction.normalize() * 35))
@@ -74,3 +83,6 @@ class Frog:
         temp = self.mouth.color
         self.mouth.change_color(self.spine.color, True)
         self.spine.change_color(temp, True)
+
+    def speed_up_shoot(self):
+        self.fast_shot += 5
