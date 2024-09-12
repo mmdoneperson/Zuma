@@ -41,6 +41,7 @@ MENU_BUTTONS = {
 
 }
 
+
 LEADERBOARD_BUTTONS = {
     "close leaderboard": Button([LEADERBOARD.close, lambda: GAME.start_game()], False, 1130, 770, 190, 70),
     "start level": Button([lambda: GAME.start_level()], False, 860, 515, 440, 185)
