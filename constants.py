@@ -34,13 +34,18 @@ for color in BALL_COLORS:
 
 
 MENU_BUTTONS = {
-    "level1": Button([LEADERBOARD.click, levels.load_level_1], True, 1375, 154, 390, 159),
-    "level2": Button([LEADERBOARD.click, levels.load_level_2], True, 1326, 364, 436, 116),
-    "level3": Button([LEADERBOARD.click, levels.load_level_3], True, 1298, 541, 452, 110),
+    "level1": Button([levels.load_level_1, LEADERBOARD.start_leaderboard], True, 1375, 154, 390, 159),
+    "level2": Button([levels.load_level_2, LEADERBOARD.start_leaderboard], True, 1326, 364, 436, 116),
+    "level3": Button([levels.load_level_3, LEADERBOARD.start_leaderboard], True, 1298, 541, 452, 110),
     "exit game": Button([system_functions.close_game], True, 1247, 705, 526, 174),
-    "close leaderboard": Button([LEADERBOARD.close], False, 0, 0, 100, 100),
+
+}
+
+LEADERBOARD_BUTTONS = {
+    "close leaderboard": Button([LEADERBOARD.close, lambda: GAME.start_game()], False, 0, 0, 100, 100),
     "start level": Button([lambda: GAME.start_level()], False, 0, WINDOW_HEIGHT - 100, 100, 100)
 }
+
 # MENU_BUTTONS = [
 #     Button(levels.load_level_1, 1375, 154, 390, 159),
 #     Button(levels.load_level_2, 1326, 364, 436, 116),
@@ -49,9 +54,7 @@ MENU_BUTTONS = {
 #     Button(LEADERBOARD.click, 0, 0, 100, 100)
 # ]
 
-BUTTONS_FOR_UPDATE = {}
-
-BUTTON_RETURN_MENU = Button([LEADERBOARD.close, lambda: GAME.start_game(), ], True, 1700, 0, 220, 60)
+BUTTON_RETURN_MENU = Button([LEADERBOARD.close, LEADERBOARD.remember_score, lambda: GAME.start_game()], True, 1700, 0, 220, 60)
 BUTTON_RETURN_MENU.image = pg.transform.scale(
     pg.image.load(r"image\exit.png"),
 (180, 70))

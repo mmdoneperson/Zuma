@@ -21,6 +21,7 @@ class Game:
             center=(constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2))
         self.level = None
         self.vectors = None
+        self.name_level = None
 
     def start_game(self):
         system_functions.start_music("sounds/music_menu.mp3")
@@ -34,17 +35,9 @@ class Game:
                     for button in constants.MENU_BUTTONS.values():
                         if not button.check_click(pg.mouse.get_pos()):
                             continue
+                        self.active_menu = False
                         button.command()
-                        self.update_menu()
             pg.display.flip()
-
-
-    def update_menu(self):
-        constants.screen.blit(self.menu_background, self.rect_menu_background)
-        for button in constants.BUTTONS_FOR_UPDATE.values():
-            button.draw()
-
-
 
     def update_all(self):
         system_functions.start_music("sounds/music_level.mp3")

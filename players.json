@@ -1,16 +1,15 @@
 {
-  "players": [
-    {
-      "name": "Player1",
-      "score": 1500
+  "levels": {
+    "level 1": {
+      "Player1": 1500,
+      "Player2": 1200,
+      "Player3": 1700
     },
-    {
-      "name": "Player2",
-      "score": 1200
+    "level 2": {
+      "Player2": 1200
     },
-    {
-      "name": "Player3",
-      "score": 1700
+    "level 3": {
+      "Player3": 1700
     }
-  ]
+  }
 }

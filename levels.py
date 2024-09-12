@@ -26,6 +26,7 @@ def load_level_1():
         old_x = x
         old_y = y
     vectors.reverse()
+    constants.GAME.name_level = "level 1"
     constants.GAME.level = Level(
         vectors,
         Vector2(450, 250),
@@ -58,6 +59,7 @@ def load_level_2():
         length -= 100
         width -= 50
         angle *= -1
+    constants.GAME.name_level = "level 2"
     constants.GAME.level = Level(vectors, Vector2(-20, 100), Vector2(
         constants.WINDOW_WIDTH // 2, constants.WINDOW_HEIGHT // 2),
                  pg.transform.scale(
@@ -80,6 +82,7 @@ def load_level_3():
         x = -abs(t / 100 * math.cos(t / 100))
         y = -t / 100 * math.sin(t / 100)
         vectors.append(Vector2(x, y).normalize() * 2)
+    constants.GAME.name_level = "level 3"
     constants.GAME.level = Level(vectors, Vector2(-20, 100), Vector2(
         848, 546),
                  pg.transform.scale(
