@@ -84,7 +84,6 @@ class Leaderboard:
             json.dump(self.json_data, json_file, indent=2)
 
 
-
     def draw_leaderboard(self):
         constants.screen.blit(self.sprite_image, self.coordinate_leaderboard)
         text_level = self.font120.render(
