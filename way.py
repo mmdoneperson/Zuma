@@ -113,6 +113,7 @@ class Way:
     def end_level(self):
         if (self.snakes[0].balls[0].index_way
                 == self.snakes[-1].balls[-1].index_way):
+            constants.LEADERBOARD.remember_score()
             constants.GAME.start_game()
         self.is_end = True
         constants.FROG.is_end = True

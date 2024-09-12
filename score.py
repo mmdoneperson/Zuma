@@ -38,4 +38,5 @@ class Score:
             if count == 0:
                 constants.REMOVED_BALLS.clear()
                 constants.EXPOSED_BALLS.clear()
+                constants.LEADERBOARD.remember_score()
                 constants.GAME.start_game()

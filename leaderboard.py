@@ -79,9 +79,10 @@ class Leaderboard:
         pg.display.flip()
 
     def remember_score(self):
-        self.leaderboard[self.player_name] = constants.SCORE.score
+        self.leaderboard[self.player_name] = constants.SCORE.total_score
         with open("players.json", "w") as json_file:
             json.dump(self.json_data, json_file, indent=2)
+        self.close()
 
 
     def draw_leaderboard(self):
@@ -124,14 +125,12 @@ class Leaderboard:
             for event in pg.event.get():
                 if event.type == pg.MOUSEBUTTONDOWN:
                     if event.button == 1:
-                        print(pg.mouse.get_pos())
                         for button_name in constants.LEADERBOARD_BUTTONS:
                             button = constants.LEADERBOARD_BUTTONS[button_name]
                             if not button.check_click(pg.mouse.get_pos()):
                                 continue
                             if button_name == "start level":
                                 if len(self.player_name) > 0:
-                                    print(self.player_name)
                                     is_active_leaderboard = False
                                     button.command()
                             else:

@@ -61,7 +61,7 @@ LEADERBOARD_BUTTONS = {
 #     Button(LEADERBOARD.click, 0, 0, 100, 100)
 # ]
 
-BUTTON_RETURN_MENU = Button([LEADERBOARD.remember_score, LEADERBOARD.close, lambda: GAME.start_game()], True, 1700, 0, 220, 60)
+BUTTON_RETURN_MENU = Button([LEADERBOARD.remember_score, lambda: GAME.start_game()], True, 1700, 0, 220, 60)
 BUTTON_RETURN_MENU.image = pg.transform.scale(
     pg.image.load(r"image\exit.png"),
 (180, 70))
