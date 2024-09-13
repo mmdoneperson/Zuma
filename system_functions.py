@@ -4,7 +4,7 @@ import sys
 
 def start_music(music_name):
     pg.mixer.music.load(music_name)
-    pg.mixer.music.set_volume(0)
+    pg.mixer.music.set_volume(0.6)
     pg.mixer.music.play(-1)
 
 

@@ -1,31 +1,30 @@
 {
   "levels": {
     "level 1": {
-      "Player1": 0,
-      "Player2": 1,
-      "Player3": 2,
       "kek": 15,
       "lol": 50,
       "bimba": 102,
-      "21212": 0,
-      "4344": 0,
-      "4324234": 0,
-      "42332424": 0,
-      "e242eqs": 0
+      "sex_bomb": 57,
+      "pupa": 70
     },
     "level 2": {
-      "Player2": 1
+      "lol": 50
     },
     "level 3": {
-      "Player3": 2
+      "lolik": 90,
+      "pup": 23
     }
   },
   "last_player": {
     "level 1": [
+      "pupa",
+      70
+    ],
+    "level 2": [
       "player1",
       10
     ],
-    "level 2": [
+    "level 3": [
       "player1",
       10
     ]

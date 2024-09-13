@@ -46,11 +46,23 @@ class Leaderboard:
         for player in self.leaderboard:
             sorted_leaderboard.append((self.leaderboard[player], player))
         sorted_leaderboard.sort(reverse=True)
-        return sorted_leaderboard
+        return sorted_leaderboard[:min(len(sorted_leaderboard), 10)]
+
+
+    def print_last_player(self):
+        last_player_data = self.json_data["last_player"][
+            constants.GAME.name_level]
+        last_player = self.font50.render(
+            "LAST PLAYER: " + last_player_data[0] + " " + str(last_player_data[1]),
+            True,
+            self.color_text)
+        constants.screen.blit(last_player, pg.Vector2(520, 770))
+
 
     def print_leaderboard(self):
         start_point_print = pg.Vector2(530, 400)
         sort_leaderboard = self.sort_leaderboard()
+        self.print_last_player()
         for player in sort_leaderboard:
             text = self.font30.render(
                 player[1] + "  " + str(player[0]),
@@ -80,6 +92,8 @@ class Leaderboard:
 
     def remember_score(self):
         self.leaderboard[self.player_name] = constants.SCORE.total_score
+        self.json_data["last_player"][constants.GAME.name_level] = \
+            [self.player_name, constants.SCORE.total_score]
         with open("players.json", "w") as json_file:
             json.dump(self.json_data, json_file, indent=2)
         self.close()
@@ -90,8 +104,6 @@ class Leaderboard:
         text_level = self.font120.render(
             constants.GAME.name_level, True, self.color_text)
         constants.screen.blit(text_level, pg.Vector2(800, 250))
-
-
         text_leaderboard = self.font50.render("LEADERBOARD:", True, self.color_text)
         constants.screen.blit(text_leaderboard, pg.Vector2(500, 350))
         constants.screen.blit(
@@ -125,6 +137,7 @@ class Leaderboard:
             for event in pg.event.get():
                 if event.type == pg.MOUSEBUTTONDOWN:
                     if event.button == 1:
+                        print(pg.mouse.get_pos())
                         for button_name in constants.LEADERBOARD_BUTTONS:
                             button = constants.LEADERBOARD_BUTTONS[button_name]
                             if not button.check_click(pg.mouse.get_pos()):
