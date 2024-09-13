@@ -1,5 +1,7 @@
 import pygame as pg
-import levels
+from levels.level1 import level1
+from levels.level2 import level2
+from levels.level3 import level3
 from button import Button
 import system_functions
 import counter
@@ -40,9 +42,9 @@ for color in SPRITE_COLORS:
 
 
 MENU_BUTTONS = {
-    "level1": Button([levels.load_level_1, LEADERBOARD.start_leaderboard], True, 1375, 154, 390, 159),
-    "level2": Button([levels.load_level_2, LEADERBOARD.start_leaderboard], True, 1326, 364, 436, 116),
-    "level3": Button([levels.load_level_3, LEADERBOARD.start_leaderboard], True, 1298, 541, 452, 110),
+    "level1": Button([level1.download, LEADERBOARD.start_leaderboard], True, 1375, 154, 390, 159),
+    "level2": Button([level2.download, LEADERBOARD.start_leaderboard], True, 1326, 364, 436, 116),
+    "level3": Button([level3.download, LEADERBOARD.start_leaderboard], True, 1298, 541, 452, 110),
     "exit game": Button([system_functions.close_game], True, 1247, 705, 526, 174),
 
 }
@@ -53,13 +55,6 @@ LEADERBOARD_BUTTONS = {
     "start level": Button([lambda: GAME.start_level()], False, 860, 515, 440, 185)
 }
 
-# MENU_BUTTONS = [
-#     Button(levels.load_level_1, 1375, 154, 390, 159),
-#     Button(levels.load_level_2, 1326, 364, 436, 116),
-#     Button(levels.load_level_3, 1298, 541, 452, 110),
-#     Button(system_functions.close_game, 1247, 705, 526, 174),
-#     Button(LEADERBOARD.click, 0, 0, 100, 100)
-# ]
 
 BUTTON_RETURN_MENU = Button([LEADERBOARD.remember_score, lambda: GAME.start_game()], True, 1700, 0, 220, 60)
 BUTTON_RETURN_MENU.image = pg.transform.scale(

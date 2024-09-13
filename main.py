@@ -33,7 +33,6 @@ class Game:
         while self.active_menu:
             for event in pg.event.get():
                 if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-                    print(pg.mouse.get_pos())
                     for button in constants.MENU_BUTTONS.values():
                         if not button.check_click(pg.mouse.get_pos()):
                             continue
