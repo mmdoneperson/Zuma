@@ -71,24 +71,24 @@ class Level:
 #                                  )
 
 
-def load_level_3():
-    vectors = []
-    for t in range(1, 1400):
-        x = abs(t / 100 * math.cos(t / 100))
-        y = t / 100 * math.sin(t / 100)
-        vectors.append(Vector2(x, y).normalize() * 2)
-    for i in range(300):
-        vectors.append(Vector2(0, 2))
-    for t in range(500, 1835):
-        x = -abs(t / 100 * math.cos(t / 100))
-        y = -t / 100 * math.sin(t / 100)
-        vectors.append(Vector2(x, y).normalize() * 2)
-    constants.GAME.level = Level(vectors, Vector2(-20, 100), Vector2(
-        848, 546),
-                                 pg.transform.scale(
-                                     pg.image.load("levels/level3/map_sin.png"),
-                                     (
-                                         constants.WINDOW_WIDTH,
-                                         constants.WINDOW_HEIGHT)).convert(),
-                                 "level 3"
-                                 )
+# def load_level_3():
+#     vectors = []
+#     for t in range(1, 1400):
+#         x = abs(t / 100 * math.cos(t / 100))
+#         y = t / 100 * math.sin(t / 100)
+#         vectors.append(Vector2(x, y).normalize() * 2)
+#     for i in range(300):
+#         vectors.append(Vector2(0, 2))
+#     for t in range(500, 1835):
+#         x = -abs(t / 100 * math.cos(t / 100))
+#         y = -t / 100 * math.sin(t / 100)
+#         vectors.append(Vector2(x, y).normalize() * 2)
+#     constants.GAME.level = Level(vectors, Vector2(-20, 100), Vector2(
+#         848, 546),
+#                                  pg.transform.scale(
+#                                      pg.image.load("levels/level3/map_sin.png"),
+#                                      (
+#                                          constants.WINDOW_WIDTH,
+#                                          constants.WINDOW_HEIGHT)).convert(),
+#                                  "level 3"
+#                                  )

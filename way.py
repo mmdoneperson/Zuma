@@ -36,6 +36,15 @@ class Way:
             self.spawn()
             for snake in self.snakes:
                 snake.update()
+        self.__count_colors_in_balls()
+
+    def __count_colors_in_balls(self):
+        constants.COUNTER_COLORS = dict()
+        for color in constants.COLORS:
+            constants.COUNTER_COLORS[color] = 0
+        for snake in self.snakes:
+            for ball in snake.balls:
+                constants.COUNTER_COLORS[ball.color] += 1
 
     def __stop(self):
         for snake in self.snakes:
@@ -123,7 +132,7 @@ class Way:
                 snake.update()
 
     def reverse(self, statuses=None):
-        self.reverse_count = 50
+        self.reverse_count = 75
         self.statuses = []
         if statuses is not None:
             self.statuses = statuses
@@ -133,7 +142,7 @@ class Way:
                 snake.status = Status.Back
 
     def stop(self, statuses=None):
-        self.stop_count = 50
+        self.stop_count = 75
         self.statuses = []
         if statuses is not None:
             self.statuses = statuses

@@ -4,34 +4,39 @@
       "kek": 15,
       "lol": 50,
       "bimba": 102,
-      "sex_bomb": 57,
       "pupa": 70,
       "keka": 4,
       "aaa": 3,
-      "sasas": 0
+      "sasas": 0,
+      "qqq": 164
     },
     "level 2": {
       "lol": 50,
-      "sas": 29
+      "sas": 29,
+      "aa": 49,
+      "fff": 367,
+      "ttt": 26,
+      "777": 64
     },
     "level 3": {
       "lolik": 90,
       "pup": 23,
-      "dad": 3
+      "dad": 3,
+      "aaa": 0
     }
   },
   "last_player": {
     "level 1": [
-      "sasas",
-      0
+      "qqq",
+      164
     ],
     "level 2": [
-      "sas",
-      29
+      "777",
+      64
     ],
     "level 3": [
-      "dad",
-      3
+      "aaa",
+      0
     ]
   }
 }

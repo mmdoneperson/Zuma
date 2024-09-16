@@ -23,7 +23,7 @@ class Frog:
         self.is_end = False
         self.timer_start = time.time()
         self.sound_shot = pg.mixer.Sound(r"sounds\shot.ogg")
-        self.fast_shot = 0
+        self.fast_shoot = 0
 
     def update(self):
         x, y = pg.mouse.get_pos()
@@ -54,7 +54,7 @@ class Frog:
                             pg.mouse.get_pos()):
                         constants.BUTTON_RETURN_MENU.command()
                     temp = 1
-                    if self.fast_shot > 0:
+                    if self.fast_shoot > 0:
                         temp = 2
                     if time.time() - self.timer_start >= 0.2 / temp:
                         self.shoot()
@@ -64,9 +64,9 @@ class Frog:
 
     def shoot(self):
         self.sound_shot.play()
-        if self.fast_shot > 0:
+        if self.fast_shoot > 0:
             self.mouth.update_direction(self.direction.normalize() * 80)
-            self.fast_shot -= 1
+            self.fast_shoot -= 1
         else:
             self.mouth.update_direction(self.direction.normalize() * 40)
         self.mouth.is_shoot = True
@@ -85,4 +85,4 @@ class Frog:
         self.spine.change_color(temp, True)
 
     def speed_up_shoot(self):
-        self.fast_shot += 5
+        self.fast_shoot += 5

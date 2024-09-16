@@ -79,7 +79,7 @@ class Snake:
             ball.update()
 
     def __back(self):
-        if self.id != len(constants.WAY.snakes) - 1:
+        if self.id < len(constants.WAY.snakes) - 1:
             if constants.WAY.snakes[self.id + 1].status == Status.Forward:
                 self.status = Status.Stop
                 return
@@ -93,9 +93,11 @@ class Snake:
                 ball.update_direction(-1 * self.vectors[ball.index_way - 1])
                 ball.update()
                 ball.index_way -= 1
-            if constants.WAY.reverse_count > 0 or len(constants.WAY.snakes) == self.id + 1 \
-                    or len(constants.WAY.snakes[self.id + 1].balls) == 0:
+            if constants.WAY.reverse_count > 0 or len(constants.WAY.snakes) <= self.id + 1:
                 return
+            if self.id + 1 < len(constants.WAY.snakes):
+                if len(constants.WAY.snakes[self.id + 1].balls) == 0:
+                    return
             difference = abs(self.balls[-1].index_way - constants.WAY.snakes[self.id + 1].balls[0].index_way)
             if difference <= 20:
                 self.status = Status.Forward

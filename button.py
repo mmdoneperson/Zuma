@@ -17,4 +17,3 @@ class Button:
         self.sound.play()
         for function in self.functions:
             function()
-

@@ -3,7 +3,6 @@ from pygame import Vector2
 import random
 import pygame as pg
 from status import Status
-from bonus import Bonus
 
 class Ball:
     def __init__(self, center, size=constants.radius_ball):

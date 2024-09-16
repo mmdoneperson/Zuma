@@ -26,7 +26,10 @@ GENERATOR = None
 COUNTER = counter.Counter()
 LEADERBOARD = leaderboard.Leaderboard()
 
+COUNTER_COLORS = dict()
 COLORS = ['blue', 'green', 'purple', 'red', 'yellow']
+for color in COLORS:
+    COUNTER_COLORS[color] = 0
 BONUSES = ['bomb', 'pause', 'reverse', 'speed']
 SPRITE_COLORS = [r"image\blueBall.png", r"image\greenBall.png",
                  r"image\purpleBall.png", r"image\redBall.png",

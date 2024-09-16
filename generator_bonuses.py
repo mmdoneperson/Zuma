@@ -6,6 +6,7 @@ import pygame as pg
 class Generator:
     def __init__(self):
         self.timer = time.time()
+        self.sound = pg.mixer.Sound(r"sounds\add_bonus_in_way.ogg")
 
     def update(self):
         if time.time() - self.timer >= 10:
@@ -21,4 +22,4 @@ class Generator:
         snake = snakes[rand]
         rand = random.randint(0, len(snake.balls) - 1)
         snake.balls[rand].bonus = Bonus()
-        pg.mixer.Sound(r"sounds\add_bonus_in_way.ogg").play()
+        self.sound.play()
